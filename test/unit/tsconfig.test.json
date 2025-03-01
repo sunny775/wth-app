@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noImplicitAny": false,
+
+    "baseUrl": "./",
+    "paths": {
+      "@lib/*": ["lib/ts/*"]
+    },
+    "esModuleInterop": true,
+
+    "types": ["node", "jest", "@testing-library/jest-dom"]
+  }
+}
