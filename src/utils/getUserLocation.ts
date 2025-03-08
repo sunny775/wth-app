@@ -1,10 +1,13 @@
-export const getUserLocation = () => navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      const { latitude, longitude } = position.coords;
-      const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
-      const data = await res.json();
-      window.location.href = `/city/${data.city}`;
-    },
-    (error) => console.error("Geolocation error:", error)
-  );
-  
+export const getUserLocation = (cb: (lat: number, lon: number) => void) => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude: lat, longitude: lon } = position.coords;
+        cb(lat, lon);
+      },
+      (error) => console.error("Unable to retrieve your location:", error)
+    );
+  } else {
+    console.log("Geolocation not supported");
+  }
+};

@@ -27,7 +27,7 @@ export interface Current {
   visibility: number;
 }
 
-export type WeathewrData = { location: Location; current: Current };
+export type WeatherData = { location: Location; current: Current };
 
 export type LocationSearchResults = Omit<
   Location,
@@ -35,3 +35,5 @@ export type LocationSearchResults = Omit<
 >[];
 
 export type City = Pick<Location, "name" | "country" | "lat" | "lon">;
+
+export type Note = { id: string; text: string; date: string };

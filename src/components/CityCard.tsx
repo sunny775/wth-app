@@ -1,28 +1,19 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { WeathewrData, City } from "../utils/types";
-
-const fetchCity = async (query: string): Promise<WeathewrData> => {
-  const url = `https://api.weatherstack.com/current?access_key={PASTE_YOUR_API_KEY_HERE}&query=${query}`;
-  const options = {
-    method: "GET",
-  };
-  try {
-    const response = await fetch(url, options);
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to fetch search results");
-  }
-};
+import { Star, Trash } from "lucide-react";
+import { WeatherData, City } from "../utils/types";
+import { queryKeys } from "../utils/weather";
+import { fetchCity } from "../utils/weather";
+import CityCardSkeleton from "./loaders/CityCardSkeleton";
 
 export interface CityCardProps {
   city: City;
   isFavorite?: boolean;
   toggleFavorite?: (city: City) => void;
   addToFavorite?: (city: City) => void;
-  removeFromLargestCities?: (city: City) => void;
+  deleteInitialCity?: (city: City) => void;
+  setCorrectFavs: (city: City)=> void;
 }
 
 const CityCard = memo(
@@ -31,82 +22,95 @@ const CityCard = memo(
     isFavorite,
     toggleFavorite,
     addToFavorite,
-    removeFromLargestCities,
+    deleteInitialCity,
+    setCorrectFavs,
   }: CityCardProps) => {
     const {
       data: weatherData,
       isLoading,
       error,
-    } = useQuery<WeathewrData>({
-      queryKey: [`${lat}_${lon}`, lat, lon],
+    } = useQuery<WeatherData>({
+      queryKey: queryKeys.city(lat, lon),
       queryFn: () => fetchCity(`${lat},${lon}`),
-      staleTime: 1000 * 60 * 60, // Cache results for 1 hour
     });
 
-    if (isLoading) return <div>loading ...</div>;
+    console.log(weatherData)
+
+    useEffect(()=>{
+      if(weatherData){
+        const {location: {name, country, lat: favLat, lon: favLon}} = weatherData
+    setCorrectFavs({name, country, lat: favLat, lon: favLon})
+      }
+    }, [weatherData, setCorrectFavs])
+
+    if (isLoading) return <CityCardSkeleton />;
     if (error) return <div>Failed to fetch</div>;
     if (!weatherData) return <div>Data not Found</div>;
+
+    
     return (
-        <div
-        className="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-xs hover:[animation-duration:_4s]"
-      >
-        <div className="rounded-[10px] bg-white p-4 !pt-20 sm:p-6">
-        <div className="flex justify-center items-center">
-          <img src={weatherData.current.weather_icons[0]} className="w-4 h-4" />
-          <div>{weatherData.current.temperature}</div>
-        </div>
-
-        <Link to={`/city/${weatherData?.location.name}`}>
-          <h3 className="mt-0.5 text-lg font-medium text-gray-900">
-            {weatherData.location.name}
-          </h3>
-        </Link>
-
-        <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-          {weatherData.location.country}
-        </p>
-
-        <div className="flex justify-between items-center">
-          <div className="flex items-center justify-center">
-            <button
-              onClick={() => {
-                if (isFavorite) {
-                  toggleFavorite?.(weatherData.location);
-                } else {
-                  addToFavorite?.(weatherData?.location);
-                  removeFromLargestCities?.(weatherData?.location);
-                }
-              }}
-            >
-              ⭐ Favorite
-            </button>
-            {!isFavorite && (
-              <button
-                onClick={() => removeFromLargestCities?.(weatherData.location)}
-              >
-                Delete
-              </button>
-            )}
+        <div className="rounded-xl p-3 shadow-sm hover:shadow-lg bg-white dark:bg-white/4 transition">
+          <div className="flex justify-center items-center gap-x-2">
+            <img
+              src={weatherData.current.weather_icons[0]}
+              className="w-8 h-8 rounded-full drop-shadow-[0_5px_5px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_5px_5px_rgba(135,206,235,0.2)]"
+            />
+            <div>{weatherData.current.temperature}°C</div>
           </div>
-          <Link
-            to={`/city/${weatherData?.location.name}`}
-            className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-600"
-          >
-            Details
-            <span
-              aria-hidden="true"
-              className="block transition-all group-hover:ms-0.5 rtl:rotate-180"
-            >
-              &rarr;
-            </span>
+
+          <Link to={`/city?lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}>
+            <h3 className="mt-0.5 text-lg font-medium">
+              {weatherData.location.name}
+            </h3>
           </Link>
+
+          <p className="mb-4 line-clamp-3 text-sm/relaxed text-gray-500">
+            {weatherData.location.country}
+          </p>
+
+          <div className="flex justify-between items-center">
+            <div className="flex items-center justify-center gap-x-1">
+              <button
+                className="rounded-full border border-sky-100 dark:border-0 bg-sky-50 dark:bg-sky-800 dark:border-sky-700 dark:text-sky-100 px-2.5 py-0.5 text-xs  text-sky-600 cursor-pointer hover:shadow-md"
+                onClick={() => {
+                  if (isFavorite) {
+                    toggleFavorite?.(weatherData.location);
+                  } else {
+                    addToFavorite?.(weatherData?.location);
+                  }
+                }}
+              >
+                {isFavorite ? (
+                  <Star fill="orange" className="h-4 w-4" strokeWidth={0} />
+                ) : (
+                  <Star className="h-4 w-4" />
+                )}
+              </button>
+              {!isFavorite && (
+                <button
+                  className="rounded-full bg-sky-50 dark:bg-sky-800 dark:border-sky-700 dark:text-sky-100  border border-sky-100 px-2.5 py-0.5 text-xs text-sky-600 cursor-pointer hover:shadow-md"
+                  onClick={() => deleteInitialCity?.(weatherData.location)}
+                >
+                  <Trash className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            <Link
+              className="group flex items-center gap-x-1 text-sm font-medium text-sky-600"
+              to={`/city?lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}
+            >
+              Details
+              <span
+                aria-hidden="true"
+                className="block transition-all group-hover:ms-0.5 rtl:rotate-180"
+              >
+                &rarr;
+              </span>
+            </Link>
+          </div>
         </div>
-      </div>
-      </div>
     );
   }
 );
 
 export default CityCard;
-
-
