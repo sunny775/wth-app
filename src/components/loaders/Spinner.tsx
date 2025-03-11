@@ -9,7 +9,7 @@ export default function Spinner({
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      className={twMerge("w-4 h-4", className)}
+      className={twMerge("w-4 h-4 fill-gray-600 dark:fill-white/50", className)}
       {...props}
     >
       <g>

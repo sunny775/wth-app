@@ -39,7 +39,7 @@ const CityDetails = () => {
   return (
     <div className="flex gap-x-8 py-16 px-8 items-center justify-center">
       <div className="w-full max-w-4xl">
-        <div className="rounded-xl p-3 shadow dark:shadow-md bg-white dark:bg-white/2 transition mb-8">
+        <div className="rounded-xl p-3 shadow bg-white dark:bg-white/2 transition mb-8">
           <div className="flex justify-center items-center gap-6 mb-8 lg:mb-12">
             <img
               src={weatherData.current.weather_icons[0]}
@@ -103,7 +103,7 @@ const CityDetails = () => {
             </div>
           </div>
         </div>
-        <div className="min-h-screen rounded-xl p-3 shadow dark:shadow-md  bg-white dark:bg-white/2 transition">
+        <div className="min-h-90 rounded-xl p-3 shadow bg-white dark:bg-white/2 transition">
           <Notes
             lat={weatherData.location.lat}
             lon={weatherData.location.lon}

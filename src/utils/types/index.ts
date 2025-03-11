@@ -29,10 +29,10 @@ export interface Current {
 
 export type WeatherData = { location: Location; current: Current };
 
-export type LocationSearchResults = Omit<
-  Location,
-  "localtime" | "localtime_epoch"
->[];
+export type LocationSearchResults = {
+  request: { query: string; results: number };
+  results: Omit<Location, "localtime" | "localtime_epoch">[];
+};
 
 export type City = Pick<Location, "name" | "country" | "lat" | "lon">;
 

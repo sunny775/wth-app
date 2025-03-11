@@ -8,16 +8,28 @@ export const useFavorites = () => {
 
   const favoritesQuery = useQuery<City[]>({
     queryKey: queryKeys.favorites(),
-    staleTime: 2000,
+    queryFn: async () => {
+      const previousData =
+        queryClient.getQueryData<City[]>(queryKeys.favorites());
+
+        return previousData ?? []
+    },
+    staleTime: 4000,
     gcTime: Infinity, // never gabbage-collected
-    initialData: [],
+    // initialData: [],
   });
 
   const initialCitiesQuery = useQuery<City[]>({
     queryKey: queryKeys.initialCities(),
+    queryFn: async () => {
+      const previousData =
+        queryClient.getQueryData<City[]>(queryKeys.initialCities());
+
+        return previousData ?? initialLargestCities()
+    },
     staleTime: 2000,
     gcTime: Infinity, // never gabbage-collected
-    initialData: initialLargestCities(),
+    // initialData: initialLargestCities(),
   });
 
   const deleteInitialCity = useMutation({
@@ -78,7 +90,7 @@ export const useFavorites = () => {
   });
 
   const toggleFavorite = useCallback((targetCity: City) => {
-    const favorites = favoritesQuery.data;
+    const favorites = favoritesQuery.data || [];
     return favorites.some(
       city =>city.lat === targetCity.lat && city.lon === targetCity.lon
     )? removeFavorite.mutate(targetCity) : addFavorite.mutate(targetCity)

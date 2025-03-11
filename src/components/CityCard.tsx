@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Star, Trash } from "lucide-react";
@@ -13,7 +13,6 @@ export interface CityCardProps {
   toggleFavorite?: (city: City) => void;
   addToFavorite?: (city: City) => void;
   deleteInitialCity?: (city: City) => void;
-  setCorrectFavs: (city: City)=> void;
 }
 
 const CityCard = memo(
@@ -23,7 +22,6 @@ const CityCard = memo(
     toggleFavorite,
     addToFavorite,
     deleteInitialCity,
-    setCorrectFavs,
   }: CityCardProps) => {
     const {
       data: weatherData,
@@ -34,22 +32,13 @@ const CityCard = memo(
       queryFn: () => fetchCity(`${lat},${lon}`),
     });
 
-    console.log(weatherData)
-
-    useEffect(()=>{
-      if(weatherData){
-        const {location: {name, country, lat: favLat, lon: favLon}} = weatherData
-    setCorrectFavs({name, country, lat: favLat, lon: favLon})
-      }
-    }, [weatherData, setCorrectFavs])
-
     if (isLoading) return <CityCardSkeleton />;
     if (error) return <div>Failed to fetch</div>;
     if (!weatherData) return <div>Data not Found</div>;
 
     
     return (
-        <div className="rounded-xl p-3 shadow-sm hover:shadow-lg bg-white dark:bg-white/4 transition">
+        <div className="rounded-xl p-3 shadow-sm hover:shadow-lg bg-white dark:bg-white/2 transition">
           <div className="flex justify-center items-center gap-x-2">
             <img
               src={weatherData.current.weather_icons[0]}
@@ -59,7 +48,7 @@ const CityCard = memo(
           </div>
 
           <Link to={`/city?lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}>
-            <h3 className="mt-0.5 text-lg font-medium">
+            <h3 className="mt-0.5 text-lg font-medium w-fit" >
               {weatherData.location.name}
             </h3>
           </Link>

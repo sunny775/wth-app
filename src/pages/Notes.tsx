@@ -1,45 +1,21 @@
 import { Edit, Trash } from "lucide-react";
-import { useState } from "react";
-import { useLocalStorage } from "react-use";
 import { v4 as uuidv4 } from "uuid";
+import { useNotes } from "../utils/useNotes";
 
-type Note = { id: string; text: string; date: string };
 
 export default function Notes({ lat, lon }: { lat: string; lon: string }) {
-  const [notes, setNotes] = useLocalStorage<Note[]>(
-    `${lat}_${lon}`,
-    []
-  );
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-  const [newNote, setNewNote] = useState("");
-
-  const handleSelectNote = (note: Note) => {
-    setSelectedNote(note);
-  };
-
-  const onEdit = (text: string) => {
-    setSelectedNote((prev) => ({ ...prev!, text }));
-  };
-
-  const saveEditedNote = (editedNote: Note) => {
-    if (editedNote.text.trim() === "") return;
-    setNotes((prevNotes = []) =>
-      prevNotes.map((note) =>
-        note.id === editedNote.id ? { ...note, text: editedNote.text } : note
-      )
-    );
-    setSelectedNote(null);
-  };
-
-  const addNewNote = (newNote: Note) => {
-    if (newNote.text.trim() === "") return;
-    setNotes((notes = []) => [...notes, newNote]);
-    setNewNote("");
-  };
-
-  const handleDeleteNote = (id: string) => {
-    setNotes((notes = []) => notes.filter((n) => n.id !== id));
-  };
+  const {
+    notes,
+    selectedNote,
+    setSelectedNote,
+    newNote,
+    setNewNote,
+    handleSelectNote,
+    onEdit,
+    saveEditedNote,
+    addNewNote,
+    handleDeleteNote,
+  } = useNotes({ lat, lon });
 
   return (
     <div>
@@ -108,14 +84,14 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 <div className="flex items-center justify-end gap-2 p-3">
                   <button
                     onClick={() => setSelectedNote(null)}
-                     className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-gray-500 shadow hover:shadow-md"
+                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-gray-500 shadow hover:shadow-md"
                   >
                     Cancel
                   </button>
 
                   <button
                     onClick={() => saveEditedNote(selectedNote)}
-                     className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md"
+                    className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md"
                   >
                     Save
                   </button>
@@ -123,8 +99,10 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
               </div>
             ) : (
               <div className="w-full p-4">
-                <p >{note.text}</p>
-                <p className="pt-4 text-gray-400 text-xs">{new Date(note.date).toDateString()}</p>
+                <p>{note.text}</p>
+                <p className="pt-4 text-gray-400 text-xs">
+                  {new Date(note.date).toDateString()}
+                </p>
 
                 <div className="flex items-center justify-end gap-2">
                   <button

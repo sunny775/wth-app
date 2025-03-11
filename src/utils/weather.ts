@@ -1,6 +1,6 @@
 import { City, LocationSearchResults, WeatherData } from "./types";
 
-export const initialLargestCities: () => City[] = () => [
+export const initialLargestCities: () => Promise<City[]> = async () => [
   { name: "Tokyo", country: "Japan", lat: "35.690", lon: "139.692" },
   { name: "New Delhi", country: "India", lat: "28.600", lon: "77.200" },
   { name: "Shanghai", country: "China", lat: "31.005", lon: "121.409" },
@@ -23,7 +23,7 @@ export const initialLargestCities: () => City[] = () => [
     lat: "23.723",
     lon: "90.409",
   },
-  { name: "Mumbai", country: "India", lat: "18.975", lon: "72.826" },
+  { name: "Bombay", country: "India", lat: "18.975", lon: "72.826" },
   { name: "Beijing", country: "China", lat: "39.929", lon: "116.388" },
   {
     name: "Osaka-Shi",
