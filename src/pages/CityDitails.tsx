@@ -10,15 +10,16 @@ const CityDetails = () => {
 
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
+  const cityName = searchParams.get("name")// decodeURIComponent(city || "");
 
   const {
     data: weatherData,
     isLoading,
     error,
   } = useQuery<WeatherData>({
-    queryKey: lat && lon ? queryKeys.city(lat, lon) : [],
+    queryKey: cityName && lat && lon ? queryKeys.city(lat, lon, cityName) : [],
     queryFn: () => fetchCity(`${lat},${lon}`),
-    enabled: !!lat && !!lon, // Only fetch if lat & lon exist
+    enabled: !!cityName && !!lat && !!lon, // Only fetch if lat & lon exist
     // staleTime: 1000, // 1 second
   });
 

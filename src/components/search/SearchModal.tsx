@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import Spinner from "../loaders/Spinner";
 import SearchBar from "./SearchInput";
 import Modal from "../Modal";
-import { LocationSearchResults } from "../../utils/types";
+import { City, LocationSearchResults } from "../../utils/types";
 import { Star } from "lucide-react";
 import cn from "../../utils/cn";
 
@@ -10,9 +10,18 @@ type SearchProps = {
   className?: string;
   closeModal(): void;
   open?: boolean;
+  toggleFavorite: (city: City) => void;
+  isFavorite: (City: City) => boolean
+
 };
 
-function ResultList({ results }: { results: LocationSearchResults }) {
+type ResultListProps = {
+  results: LocationSearchResults;
+  toggleFavorite: (city: City) => void;
+  isFavorite: (City: City) => boolean
+};
+
+function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
   return (
     <ul
       role="list"
@@ -23,9 +32,16 @@ function ResultList({ results }: { results: LocationSearchResults }) {
           key={result.name}
           className="flex justify-between gap-x-6 py-5 text-gray-700 dark:text-gray-300"
         >
-          <div className="flex min-w-0 gap-x-4">
-            <Star />
-            <div className="min-w-0 flex-auto">
+          <div className="flex gap-x-4 justify-center items-center">
+            <Star
+              onClick={() => toggleFavorite(result)}
+              className={cn("h-6 w-6 cursor-pointer", {
+                "fill-orange-500": isFavorite(result),
+              })}
+              strokeWidth={1}
+            />
+
+            <div className="flex-auto">
               <p className="text-sm/6 font-semibold">{result.name}</p>
               <p className="mt-1 truncate text-xs/5 text-gray-500">
                 {result.country}
@@ -58,6 +74,8 @@ export default function SearchModal({
   className,
   closeModal,
   open,
+  isFavorite,
+  toggleFavorite
 }: SearchProps) {
   return (
     <Modal
@@ -90,7 +108,7 @@ export default function SearchModal({
                   {error.message || "Error fetching results."}
                 </div>
               ) : results?.results.length ? (
-                <ResultList results={results} />
+                <ResultList results={results} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
               ) : query.length > 2 ? (
                 <div className="p-4 text-center text-sm text-gray-500">
                   No results found 😢

@@ -11,6 +11,7 @@ const Home = () => {
     initialCitiesQuery,
     deleteInitialCity,
     addFavorite,
+    isFavorite,
     toggleFavorite,
   } = useFavorites();
 
@@ -33,6 +34,8 @@ const Home = () => {
       <SearchModal
         open={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
       />
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {sortCities(favoritesQuery.data || []).map((city) => (

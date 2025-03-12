@@ -17,7 +17,7 @@ export interface CityCardProps {
 
 const CityCard = memo(
   ({
-    city: { lat, lon },
+    city: { name, lat, lon, },
     isFavorite,
     toggleFavorite,
     addToFavorite,
@@ -28,7 +28,7 @@ const CityCard = memo(
       isLoading,
       error,
     } = useQuery<WeatherData>({
-      queryKey: queryKeys.city(lat, lon),
+      queryKey: queryKeys.city(lat, lon, name),
       queryFn: () => fetchCity(`${lat},${lon}`),
     });
 
@@ -47,7 +47,7 @@ const CityCard = memo(
             <div>{weatherData.current.temperature}°C</div>
           </div>
 
-          <Link to={`/city?lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}>
+          <Link to={`/city?name=${encodeURIComponent(weatherData.location.name)}&lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}>
             <h3 className="mt-0.5 text-lg font-medium w-fit" >
               {weatherData.location.name}
             </h3>
@@ -86,7 +86,7 @@ const CityCard = memo(
             </div>
             <Link
               className="group flex items-center gap-x-1 text-sm font-medium text-sky-600"
-              to={`/city?lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}
+              to={`/city?name=${encodeURIComponent(weatherData.location.name)}&lat=${weatherData.location.lat}&lon=${weatherData.location.lon}`}
             >
               Details
               <span

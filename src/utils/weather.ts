@@ -5,7 +5,7 @@ export const initialLargestCities: () => Promise<City[]> = async () => [
   { name: "New Delhi", country: "India", lat: "28.600", lon: "77.200" },
   { name: "Shanghai", country: "China", lat: "31.005", lon: "121.409" },
   {
-    name: "San Paulo",
+    name: "Sao Paulo",
     country: "Brazil",
     lat: "-23.533",
     lon: "-46.617",
@@ -94,8 +94,9 @@ export const fetchSearchResults = async (query: string) => {
 };
 
 export const queryKeys = {
+  userLoation: () => ["userLocation"],
   initialCities: () => ["weatherData", "initialCities"],
   favorites: () => ["weatherData", "favorites"],
-  city: (lat: string, lon: string) => ["weatherData", "city", lat, lon],
+  city: (name: string, lat: string, lon: string) => ["weatherData",lat, lon, name],
   search: (query: string) => ["searchResults", query],
 };

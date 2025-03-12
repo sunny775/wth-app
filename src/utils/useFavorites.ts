@@ -39,7 +39,7 @@ export const useFavorites = () => {
         queryClient.getQueryData<City[]>(queryKeys.initialCities()) || [];
 
       const updatedData = previousData.filter(
-        (c) => c.lat !== city.lat || c.lon !== city.lon
+        (c) => c.lat !== city.lat || c.lon !== city.lon || c.name !== city.name
       );
 
       return updatedData;
@@ -66,7 +66,7 @@ export const useFavorites = () => {
       queryClient.setQueryData<City[]>(
         queryKeys.initialCities(),
         initialCitiesData.filter(
-          (c) => c.lat !== city.lat || c.lon !== city.lon
+          (c) => c.lat !== city.lat || c.lon !== city.lon || c.name !== city.name
         )
       );
     },
@@ -79,7 +79,7 @@ export const useFavorites = () => {
         queryClient.getQueryData<City[]>(queryKeys.favorites()) || [];
 
       const updatedData = previousData.filter(
-        (c) => c.lat !== city.lat || c.lon !== city.lon
+        (c) => c.lat !== city.lat || c.lon !== city.lon || c.name !== city.name
       );
 
       return updatedData;
@@ -89,19 +89,26 @@ export const useFavorites = () => {
     },
   });
 
-  const toggleFavorite = useCallback((targetCity: City) => {
+  const isFavorite = useCallback((targetCity: City) => {
     const favorites = favoritesQuery.data || [];
-    return favorites.some(
-      city =>city.lat === targetCity.lat && city.lon === targetCity.lon
-    )? removeFavorite.mutate(targetCity) : addFavorite.mutate(targetCity)
 
-  }, [addFavorite, favoritesQuery.data, removeFavorite])
+    return favorites.some(
+      city =>city.lat === targetCity.lat && city.lon === targetCity.lon && city.name === targetCity.name
+    )
+  }, [favoritesQuery])
+
+  const toggleFavorite = useCallback((targetCity: City) => {
+    
+    return isFavorite(targetCity) ? removeFavorite.mutate(targetCity) : addFavorite.mutate(targetCity)
+
+  }, [addFavorite, removeFavorite, isFavorite])
 
 
   return {
     favoritesQuery,
     initialCitiesQuery,
     deleteInitialCity,
+    isFavorite,
     addFavorite,
     removeFavorite,
     toggleFavorite
