@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import Spinner from "../loaders/Spinner";
-import SearchBar from "./SearchInput";
+import SearchBar from "./SearchBar";
 import cn from "../../utils/cn";
 
 type SearchProps = {
@@ -29,11 +29,11 @@ export default function HeaderSearchBar({ className }: SearchProps) {
               <div className="p-4 text-center text-sm text-red-600">
                 {error.message || "Error fetching results."}
               </div>
-            ) : results?.results.length ? (
+            ) : results?.length ? (
               <ul className="max-h-64 space-y-1 overflow-auto p-2">
-                {results.results.map((searchResult) => (
+                {results.map((searchResult) => (
                   <li
-                    key={searchResult.name}
+                    key={`${searchResult.lat}${searchResult.lon}`}
                     className="group rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-white/10"
                   >
                     <Link

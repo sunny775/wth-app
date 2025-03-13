@@ -1,7 +1,7 @@
 import { Edit, Trash } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
-import { useNotes } from "../utils/useNotes";
-
+import { useNotes } from "../../hooks/useNotes";
+import { Note } from "../../utils/shared-types";
 
 export default function Notes({ lat, lon }: { lat: string; lon: string }) {
   const {
@@ -16,6 +16,11 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
     addNewNote,
     handleDeleteNote,
   } = useNotes({ lat, lon });
+
+  const sortByDateDesc = (notes: Note[]) =>
+    notes.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
 
   return (
     <div>
@@ -38,7 +43,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
             <button
               onClick={() => setNewNote("")}
               type="button"
-              className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md"
+              className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
             >
               Clear
             </button>
@@ -52,7 +57,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 })
               }
               type="button"
-              className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md"
+              className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
             >
               Save
             </button>
@@ -61,7 +66,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
       </div>
 
       <ul className="space-y-2">
-        {notes?.map((note) => (
+        {sortByDateDesc(notes).map((note) => (
           <li
             key={note.id}
             className="border border-gray-50 dark:border-white/10 p-2 rounded-md shadow"
@@ -84,14 +89,14 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 <div className="flex items-center justify-end gap-2 p-3">
                   <button
                     onClick={() => setSelectedNote(null)}
-                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-gray-500 shadow hover:shadow-md"
+                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-gray-500 shadow hover:shadow-md cursor-pointer"
                   >
                     Cancel
                   </button>
 
                   <button
                     onClick={() => saveEditedNote(selectedNote)}
-                    className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md"
+                    className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
                   >
                     Save
                   </button>
@@ -107,14 +112,14 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 <div className="flex items-center justify-end gap-2">
                   <button
                     onClick={() => handleSelectNote(note)}
-                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md"
+                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
                   >
                     <Edit className="w-4 h-4">Edit</Edit>
                   </button>
 
                   <button
                     onClick={() => handleDeleteNote(note.id)}
-                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-red-400 shadow hover:shadow-md"
+                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-red-400 shadow hover:shadow-md cursor-pointer"
                   >
                     <Trash className="w-4 h-4">Delete</Trash>
                   </button>

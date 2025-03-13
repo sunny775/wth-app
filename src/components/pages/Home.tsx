@@ -1,16 +1,16 @@
 import { useState } from "react";
-import CityCard from "../components/CityCard";
-import { City } from "../utils/types";
-import { useFavorites } from "../utils/useFavorites";
-import SearchModal from "../components/search/SearchModal";
+import { City } from "../../utils/shared-types";
+import { useFavorites } from "../../hooks/useFavorites";
+import SearchModal from "../search/SearchModal";
 import { Plus } from "lucide-react";
+import Button from "../Button";
+import LazyCityCard from "../LazyCityCard";
 
 const Home = () => {
   const {
     favoritesQuery,
     initialCitiesQuery,
     deleteInitialCity,
-    addFavorite,
     isFavorite,
     toggleFavorite,
   } = useFavorites();
@@ -24,12 +24,12 @@ const Home = () => {
     <div className="py-16 px-8">
       <div className="flex items-center gap-4 mb-8">
         <h2 className="text-3xl">My Cities</h2>
-        <button
+        <Button
+          className="border border-sky-600/20 bg-sky-50 dark:bg-sky-100/5 rounded-full  hover:bg-sky-100/10 cursor-pointer"
           onClick={() => setIsModalOpen(true)}
-          className="px-6 py-3 border border-sky-600/20 bg-sky-50 dark:bg-sky-100/5 rounded-lg  hover:bg-sky-100/10 flex items-center justify-center cursor-pointer"
         >
           <Plus className="w-4 h-4 mr-4" /> <span>Add City</span>
-        </button>
+        </Button>
       </div>
       <SearchModal
         open={isModalOpen}
@@ -39,18 +39,18 @@ const Home = () => {
       />
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {sortCities(favoritesQuery.data || []).map((city) => (
-          <CityCard
-            key={city.name}
+          <LazyCityCard
+            key={`${city.lat}${city.lon}`}
             city={city}
             toggleFavorite={(c: City) => toggleFavorite(c)}
             isFavorite
           />
         ))}
         {sortCities(initialCitiesQuery.data || []).map((city) => (
-          <CityCard
-            key={city.name}
+          <LazyCityCard
+            key={`${city.lat}${city.lon}`}
             city={city}
-            addToFavorite={(c: City) => addFavorite.mutate(c)}
+            toggleFavorite={(c: City) => toggleFavorite(c)}
             deleteInitialCity={(c: City) => deleteInitialCity.mutate(c)}
           />
         ))}

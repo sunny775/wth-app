@@ -1,7 +1,7 @@
-import { City, LocationSearchResults, WeatherData } from "./types";
+import { City, LocationSearch, WeatherData } from "./shared-types";
 
 export const initialLargestCities: () => Promise<City[]> = async () => [
-  { name: "Tokyo", country: "Japan", lat: "35.690", lon: "139.692" },
+  /* { name: "Tokyo", country: "Japan", lat: "35.690", lon: "139.692" },
   { name: "New Delhi", country: "India", lat: "28.600", lon: "77.200" },
   { name: "Shanghai", country: "China", lat: "31.005", lon: "121.409" },
   {
@@ -30,7 +30,7 @@ export const initialLargestCities: () => Promise<City[]> = async () => [
     country: "Japan",
     lat: "34.694",
     lon: "135.502",
-  },
+  },*/
   {
     name: "New York",
     country: "United States of America",
@@ -80,6 +80,20 @@ export const fetchFn = async <T>(url: string): Promise<T> => {
   }
 };
 
+export function removeDuplicateCities<T extends City>(cities: T[]): T[] {
+  const uniqueCities = new Map<string, T>();
+
+  cities.forEach((city) => {
+    const key = `${city.lat},${city.lon},${city.country}`;
+
+    if (!uniqueCities.has(key)) {
+      uniqueCities.set(key, city);
+    }
+  });
+
+  return Array.from(uniqueCities.values());
+}
+
 // const API_KEY = "85192dff816031ea400b255b583411be";
 const API_KEY = "61d56a1173c3706f92b355775ba41dfb";
 
@@ -90,13 +104,16 @@ export const fetchCity = async (query: string) => {
 
 export const fetchSearchResults = async (query: string) => {
   const url = `https://api.weatherstack.com/autocomplete?access_key=${API_KEY}&query=${query}`;
-  return fetchFn<LocationSearchResults>(url);
+  return fetchFn<LocationSearch>(url);
 };
 
 export const queryKeys = {
   userLoation: () => ["userLocation"],
   initialCities: () => ["weatherData", "initialCities"],
   favorites: () => ["weatherData", "favorites"],
-  city: (name: string, lat: string, lon: string) => ["weatherData",lat, lon, name],
+  city: (args: { lat: string; lon: string }) => [
+    "weatherData",
+    Object.values(args).toString(),
+  ],
   search: (query: string) => ["searchResults", query],
 };

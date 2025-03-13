@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { fetchCity, queryKeys } from "./weather";
+import { queryKeys } from "../utils/weather";
 
 export const getUserLocation = async (): Promise<{
   lat: number;
@@ -45,13 +45,7 @@ export default function useLocation() {
 
   const { data, error, isLoading } = useQuery({
     queryKey: locationKey(),
-    queryFn: async () => {
-      const { lat, lon } = await getUserLocation();
-      const { location } = await fetchCity(`${lat},${lon}`);
-
-
-      return location ;
-    },
+    queryFn: getUserLocation,
     retry: false,
   });
 
@@ -61,14 +55,12 @@ export default function useLocation() {
     const handlePermissionChange = async () => {
       await queryClient.invalidateQueries({ queryKey: locationKey() });
 
-      const data = queryClient.getQueryData<{
-        name: string;
-        lat: string;
-        lon: string;
-      }>(locationKey());
+      const data = queryClient.getQueryData<{ lat: string; lon: string }>(
+        locationKey()
+      );
 
       if (permissionStatus?.state === "granted" && data) {
-        window.location.href = `/city?name=${encodeURIComponent(data.name)}&lat=${data.lat}&lon=${data.lon}`;
+        window.location.href = `/city?lat=${data.lat}&lon=${data.lon}`;
       }
     };
 

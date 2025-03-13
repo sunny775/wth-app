@@ -1,5 +1,5 @@
-import BrandLogo from "./BrandLogo";
-import HeaderSearchBar from "./search/HeaderSearch";
+import BrandLogo from "../BrandLogo";
+import HeaderSearchBar from "../search/HeaderSearch";
 
 export default function Header() {
   return (

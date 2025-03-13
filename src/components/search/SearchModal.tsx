@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import Spinner from "../loaders/Spinner";
-import SearchBar from "./SearchInput";
+import SearchBar from "./SearchBar";
 import Modal from "../Modal";
-import { City, LocationSearchResults } from "../../utils/types";
+import { City, LocationSearch } from "../../utils/shared-types";
 import { Star } from "lucide-react";
 import cn from "../../utils/cn";
 
@@ -11,14 +11,13 @@ type SearchProps = {
   closeModal(): void;
   open?: boolean;
   toggleFavorite: (city: City) => void;
-  isFavorite: (City: City) => boolean
-
+  isFavorite: (City: City) => boolean;
 };
 
 type ResultListProps = {
-  results: LocationSearchResults;
+  results: LocationSearch["results"];
   toggleFavorite: (city: City) => void;
-  isFavorite: (City: City) => boolean
+  isFavorite: (City: City) => boolean;
 };
 
 function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
@@ -27,9 +26,9 @@ function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
       role="list"
       className="divide-y divide-gray-100 dark:divide-gray-700 space-y-1 p-2"
     >
-      {results.results.map((result) => (
+      {results.map((result) => (
         <li
-          key={result.name}
+          key={`${result.lat}${result.lon}`}
           className="flex justify-between gap-x-6 py-5 text-gray-700 dark:text-gray-300"
         >
           <div className="flex gap-x-4 justify-center items-center">
@@ -75,7 +74,7 @@ export default function SearchModal({
   closeModal,
   open,
   isFavorite,
-  toggleFavorite
+  toggleFavorite,
 }: SearchProps) {
   return (
     <Modal
@@ -107,8 +106,12 @@ export default function SearchModal({
                 <div className="p-4 text-center text-sm text-red-600">
                   {error.message || "Error fetching results."}
                 </div>
-              ) : results?.results.length ? (
-                <ResultList results={results} isFavorite={isFavorite} toggleFavorite={toggleFavorite} />
+              ) : results?.length ? (
+                <ResultList
+                  results={results}
+                  isFavorite={isFavorite}
+                  toggleFavorite={toggleFavorite}
+                />
               ) : query.length > 2 ? (
                 <div className="p-4 text-center text-sm text-gray-500">
                   No results found 😢

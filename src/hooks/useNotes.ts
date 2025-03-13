@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Note } from "./types";
+import { Note } from "../utils/shared-types";
 
 export const useNotes = ({ lat, lon }: { lat: string; lon: string }) => {
-  const [notes, setNotes] = useState<Note[]>(JSON.parse(localStorage.getItem(`notes_${lat}_${lon}`) || "[]"));
+  const [notes, setNotes] = useState<Note[]>(
+    JSON.parse(localStorage.getItem(`notes_${lat}_${lon}`) || "[]")
+  );
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [newNote, setNewNote] = useState("");
 

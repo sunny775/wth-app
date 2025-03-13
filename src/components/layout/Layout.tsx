@@ -1,28 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Outlet } from "react-router";
-import useLocation from "../utils/useLocation";
+import useLocation from "../../hooks/useLocation";
 import { X } from "lucide-react";
-
-interface LayoutProps {
-  toggleTheme: () => void;
-}
 
 interface LocationErrorProps {
   error: Error;
   hideError: () => void;
 }
 
-export default function Layout({ toggleTheme }: LayoutProps) {
+export default function Layout() {
   const [showError, setShowError] = useState(true);
   const location = useLocation();
+
+  const [isDark, setIsDark] = useState(() => {
+    return (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+    }
+  }, [isDark]);
+
+  const toggleTheme = () => setIsDark((prev) => !prev);
 
   return (
     <div className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black/85 transition">
       <Header />
-      <SideBar toggleTheme={toggleTheme} location={location.data} showError={()=> setShowError(true)} />
+      <SideBar
+        toggleTheme={toggleTheme}
+        location={location.data}
+        showError={() => setShowError(true)}
+      />
       <main className="ml-16 min-h-screen">
         <Outlet />
       </main>

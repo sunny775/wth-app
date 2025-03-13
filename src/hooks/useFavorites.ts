@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {queryKeys, initialLargestCities} from "./weather";
-import { City } from "./types";
+import { queryKeys, initialLargestCities } from "../utils/weather";
+import { City } from "../utils/shared-types";
 import { useCallback } from "react";
 
 export const useFavorites = () => {
@@ -9,27 +9,27 @@ export const useFavorites = () => {
   const favoritesQuery = useQuery<City[]>({
     queryKey: queryKeys.favorites(),
     queryFn: async () => {
-      const previousData =
-        queryClient.getQueryData<City[]>(queryKeys.favorites());
+      const previousData = queryClient.getQueryData<City[]>(
+        queryKeys.favorites()
+      );
 
-        return previousData ?? []
+      return previousData ?? [];
     },
-    staleTime: 4000,
+    staleTime: 2000,
     gcTime: Infinity, // never gabbage-collected
-    // initialData: [],
   });
 
   const initialCitiesQuery = useQuery<City[]>({
     queryKey: queryKeys.initialCities(),
     queryFn: async () => {
-      const previousData =
-        queryClient.getQueryData<City[]>(queryKeys.initialCities());
+      const previousData = queryClient.getQueryData<City[]>(
+        queryKeys.initialCities()
+      );
 
-        return previousData ?? initialLargestCities()
+      return previousData ?? initialLargestCities();
     },
     staleTime: 2000,
     gcTime: Infinity, // never gabbage-collected
-    // initialData: initialLargestCities(),
   });
 
   const deleteInitialCity = useMutation({
@@ -39,7 +39,7 @@ export const useFavorites = () => {
         queryClient.getQueryData<City[]>(queryKeys.initialCities()) || [];
 
       const updatedData = previousData.filter(
-        (c) => c.lat !== city.lat || c.lon !== city.lon || c.name !== city.name
+        (c) => c.lat !== city.lat || c.lon !== city.lon
       );
 
       return updatedData;
@@ -66,7 +66,7 @@ export const useFavorites = () => {
       queryClient.setQueryData<City[]>(
         queryKeys.initialCities(),
         initialCitiesData.filter(
-          (c) => c.lat !== city.lat || c.lon !== city.lon || c.name !== city.name
+          (c) => c.lat !== city.lat || c.lon !== city.lon
         )
       );
     },
@@ -79,7 +79,7 @@ export const useFavorites = () => {
         queryClient.getQueryData<City[]>(queryKeys.favorites()) || [];
 
       const updatedData = previousData.filter(
-        (c) => c.lat !== city.lat || c.lon !== city.lon || c.name !== city.name
+        (c) => c.lat !== city.lat || c.lon !== city.lon
       );
 
       return updatedData;
@@ -89,20 +89,25 @@ export const useFavorites = () => {
     },
   });
 
-  const isFavorite = useCallback((targetCity: City) => {
-    const favorites = favoritesQuery.data || [];
+  const isFavorite = useCallback(
+    (targetCity: City) => {
+      const favorites = favoritesQuery.data || [];
 
-    return favorites.some(
-      city =>city.lat === targetCity.lat && city.lon === targetCity.lon && city.name === targetCity.name
-    )
-  }, [favoritesQuery])
+      return favorites.some(
+        (city) => city.lat === targetCity.lat && city.lon === targetCity.lon
+      );
+    },
+    [favoritesQuery]
+  );
 
-  const toggleFavorite = useCallback((targetCity: City) => {
-    
-    return isFavorite(targetCity) ? removeFavorite.mutate(targetCity) : addFavorite.mutate(targetCity)
-
-  }, [addFavorite, removeFavorite, isFavorite])
-
+  const toggleFavorite = useCallback(
+    (targetCity: City) => {
+      return isFavorite(targetCity)
+        ? removeFavorite.mutate(targetCity)
+        : addFavorite.mutate(targetCity);
+    },
+    [addFavorite, removeFavorite, isFavorite]
+  );
 
   return {
     favoritesQuery,
@@ -111,7 +116,6 @@ export const useFavorites = () => {
     isFavorite,
     addFavorite,
     removeFavorite,
-    toggleFavorite
+    toggleFavorite,
   };
 };
-

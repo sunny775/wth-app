@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy} from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { QueryClient } from "@tanstack/react-query";
 import {
@@ -7,21 +7,13 @@ import {
 } from "@tanstack/react-query-persist-client";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Layout from "./components/Layout";
+import Layout from "./components/layout/Layout";
 import PageLoader from "./components/loaders/PageLoader";
 
-const Home = lazy(() => import("./pages/Home"));
-const CityDetails = lazy(() => import("./pages/CityDitails"));
+const Home = lazy(() => import("./components/pages/Home"));
+const CityDetails = lazy(() => import("./components/pages/CityDitails"));
 
 export default function App() {
-  const [isDark, setIsDark] = useState(() => {
-    return (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
-  });
-
   const persister = createSyncStoragePersister({
     storage: window.localStorage,
     retry: removeOldestQuery,
@@ -37,18 +29,6 @@ export default function App() {
     },
   });
 
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => setIsDark((prev) => !prev);
-
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -57,7 +37,7 @@ export default function App() {
       <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route element={<Layout toggleTheme={toggleTheme} />}>
+            <Route element={<Layout />}>
               <Route index path="/" element={<Home />} />
               <Route path="city" element={<CityDetails />} />
             </Route>

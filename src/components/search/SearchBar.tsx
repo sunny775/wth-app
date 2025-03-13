@@ -1,22 +1,34 @@
 import { useRef, useState } from "react";
 import { useClickAway, useDebounce } from "react-use";
 import { useQuery } from "@tanstack/react-query";
-import { City, LocationSearchResults } from "../../utils/types";
-import { fetchSearchResults, queryKeys } from "../../utils/weather";
+import { LocationSearch } from "../../utils/shared-types";
+import {
+  fetchSearchResults,
+  queryKeys,
+  removeDuplicateCities,
+} from "../../utils/weather";
 import { Search } from "lucide-react";
 import cn from "../../utils/cn";
 
-type SearchResultProps = {results?: LocationSearchResults, query: string, addToFavorite?: (city: City) => void; error: Error | null, isLoading: boolean, showDropdown: boolean}
+type SearchResultProps = {
+  results?: LocationSearch["results"];
+  query: string;
+  error: Error | null;
+  isLoading: boolean;
+  showDropdown: boolean;
+};
 
 interface SearchProps {
-  addToFavorite?: (city: City) => void;
   className?: string;
   isDropdown: boolean;
   renderSearchResults: (props: SearchResultProps) => React.ReactNode;
-};
+}
 
-
-export default function SearchBar({ addToFavorite, isDropdown, className, renderSearchResults }: SearchProps) {
+export default function SearchBar({
+  isDropdown,
+  className,
+  renderSearchResults,
+}: SearchProps) {
   const refDropdown = useRef(null);
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -29,10 +41,13 @@ export default function SearchBar({ addToFavorite, isDropdown, className, render
     data: searchResults,
     isLoading,
     error,
-  } = useQuery<LocationSearchResults>({
+  } = useQuery<LocationSearch["results"]>({
     queryKey: queryKeys.search(searchQueryDebounced),
-    queryFn: () => fetchSearchResults(searchQueryDebounced),
-    enabled: searchQueryDebounced.length > 2, // Fetch only if query length > 2
+    queryFn: async () => {
+      const results = await fetchSearchResults(searchQueryDebounced);
+      return removeDuplicateCities(results.results);
+    },
+    enabled: searchQueryDebounced.length > 2,
     retry: false,
   });
 
@@ -42,7 +57,7 @@ export default function SearchBar({ addToFavorite, isDropdown, className, render
 
   return (
     <div
-      { ...(isDropdown ? {ref: refDropdown} : {}) }
+      {...(isDropdown ? { ref: refDropdown } : {})}
       className={cn("relative", className)}
     >
       <div className="absolute left-2 text-gray-600 flex items-center pr-3 h-full cursor-pointer">
@@ -67,8 +82,13 @@ export default function SearchBar({ addToFavorite, isDropdown, className, render
           Submit
         </button>
       </form>
-       {renderSearchResults({results: searchResults, query:searchQueryDebounced, error, isLoading, showDropdown, addToFavorite})}
-      
+      {renderSearchResults({
+        results: searchResults,
+        query: searchQueryDebounced,
+        error,
+        isLoading,
+        showDropdown,
+      })}
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import { Home, MapPin, Moon, Sun } from "lucide-react";
 import { Link } from "react-router";
-import { Location } from "../utils/types";
 
 interface SideBarProps {
   toggleTheme: () => void;
-  location?: Location;
+  location?: {
+    lat: number;
+    lon: number;
+};
   showError: () => void;
 }
 
@@ -37,7 +39,7 @@ export default function SideBar({
                 className="group relative flex justify-center rounded-sm bg-sky-50 dark:bg-black/30 px-2 py-1.5 text-sky-700"
               >
                 {location ? (
-                  <Link to={`/city?name=${encodeURIComponent(location.name)}&lat=${location?.lat}&lon=${location?.lon}`}>
+                  <Link to={`/city?lat=${location?.lat}&lon=${location?.lon}`}>
                     <MapPin className="h-4 w-4" />
                   </Link>
                 ) : (
