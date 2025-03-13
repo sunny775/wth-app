@@ -34,8 +34,8 @@ function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
           <div className="flex gap-x-4 justify-center items-center">
             <Star
               onClick={() => toggleFavorite(result)}
-              className={cn("h-6 w-6 cursor-pointer", {
-                "fill-orange-500": isFavorite(result),
+              className={cn("h-6 w-6 cursor-pointer hover:stroke-orange-500", {
+                "fill-orange-500 stroke-orange-500": isFavorite(result),
               })}
               strokeWidth={1}
             />
