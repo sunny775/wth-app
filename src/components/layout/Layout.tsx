@@ -14,26 +14,42 @@ interface LocationErrorProps {
 export default function Layout() {
   const [showError, setShowError] = useState(true);
   const location = useLocation();
-
-  const [isDark, setIsDark] = useState(() => {
-    return (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
+  const [, setIsDark] = useState(() => {
+    return localStorage.theme === "dark";
   });
 
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
-    }
-  }, [isDark]);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-  const toggleTheme = () => setIsDark((prev) => !prev);
+    const handleChange = (event: MediaQueryListEvent) => {
+      if ("theme" in localStorage) return; // use manually set theme if available
+
+      if (event.matches) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark((prev) => {
+      const isDark = !prev;
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+        localStorage.theme = "dark";
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.theme = "light";
+      }
+      return isDark;
+    });
+  };
 
   return (
     <div className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black/85 transition">
