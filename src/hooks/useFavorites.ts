@@ -16,7 +16,7 @@ export const useFavorites = () => {
       return previousData ?? [];
     },
     staleTime: 2000,
-    gcTime: Infinity, // never gabbage-collected
+    gcTime: Infinity,
   });
 
   const initialCitiesQuery = useQuery<City[]>({
@@ -29,7 +29,7 @@ export const useFavorites = () => {
       return previousData ?? initialLargestCities();
     },
     staleTime: 2000,
-    gcTime: Infinity, // never gabbage-collected
+    gcTime: Infinity,
   });
 
   const deleteInitialCity = useMutation({
@@ -58,17 +58,18 @@ export const useFavorites = () => {
       return [...previousData, city];
     },
     onSuccess: (data, city) => {
-      const initialCitiesData =
-        queryClient.getQueryData<City[]>(queryKeys.initialCities()) || [];
+      //const initialCitiesData =
+      // queryClient.getQueryData<City[]>(queryKeys.initialCities()) || [];
 
       queryClient.setQueryData<City[]>(queryKeys.favorites(), data);
 
-      queryClient.setQueryData<City[]>(
+      /* queryClient.setQueryData<City[]>(
         queryKeys.initialCities(),
         initialCitiesData.filter(
           (c) => c.lat !== city.lat || c.lon !== city.lon
         )
-      );
+      );*/
+      deleteInitialCity.mutate(city);
     },
   });
 
@@ -81,7 +82,6 @@ export const useFavorites = () => {
       const updatedData = previousData.filter(
         (c) => c.lat !== city.lat || c.lon !== city.lon
       );
-
       return updatedData;
     },
     onSuccess: (data) => {

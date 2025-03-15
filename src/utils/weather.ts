@@ -73,9 +73,8 @@ export const fetchFn = async <T>(url: string): Promise<T> => {
     }
     return data;
   } catch (error) {
-    console.error("from fetchFn: error:", error);
     throw new Error(
-      error instanceof Error ? error.message : "Failed to fetch data"
+      error instanceof Error ? error.message : "Failed to fetch"
     );
   }
 };

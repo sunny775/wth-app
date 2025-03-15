@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { memo, useEffect, useRef } from "react";
+import Button from "./Button";
 
 interface ModalProps {
   header: React.ReactNode;
@@ -16,10 +17,8 @@ const Modal = memo(
     useEffect(() => {
       if (open || isDefaultOpen) {
         dialogRef.current?.showModal();
-        console.log("dialog opened");
       } else {
         dialogRef.current?.close();
-        console.log("dialog closed");
       }
     }, [open, isDefaultOpen]);
 
@@ -32,9 +31,12 @@ const Modal = memo(
         <div className="flex flex-col w-full p-4 h-full overflow-auto">
           <div className="flex w-full h-auto justify-center items-center">
             {header}
-            <button className="w-8 h-8 bg-gray-400 dark:bg-white/20 rounded-full flex justify-center items-center text-gray-100 dark:text-black/50 cursor-pointer fixed top-3 right-3">
-              <X onClick={closeModal} />
-            </button>
+            <Button
+              onClick={closeModal}
+              className="w-8 h-8 px-0 bg-gray-400 dark:bg-white/20 rounded-full text-gray-100 dark:text-black/50 fixed top-3 right-3"
+            >
+              <X className="w-4 h-4" />
+            </Button>
           </div>
           {children}
         </div>

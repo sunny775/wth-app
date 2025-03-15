@@ -1,7 +1,9 @@
 import { Edit, Trash } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
-import { useNotes } from "../../hooks/useNotes";
-import { Note } from "../../utils/shared-types";
+import { useNotes } from "../../../hooks/useNotes";
+import { Note } from "../../../utils/shared-types";
+import Button from "../../Button";
+import Textarea from "../../Textarea";
 
 export default function Notes({ lat, lon }: { lat: string; lon: string }) {
   const {
@@ -30,25 +32,23 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
         </label>
 
         <div className="overflow-hidden">
-          <textarea
+          <Textarea
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
             id="CityNotes"
-            className="block w-full rounded-md bg-gray-100 dark:bg-black/8 px-3 py-1.5  focus:outline-none focus:border focus:border-sky-600 placeholder:text-gray-400 dark:placeholder:text-gray-500 sm:text-sm/6"
-            rows={4}
             placeholder="Enter informative notes about this city..."
-          ></textarea>
+          />
 
           <div className="flex items-center justify-end gap-2 py-3">
-            <button
+            <Button
               onClick={() => setNewNote("")}
               type="button"
-              className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
+              className="h-8 text-gray-500"
             >
               Clear
-            </button>
+            </Button>
 
-            <button
+            <Button
               onClick={() =>
                 addNewNote({
                   text: newNote,
@@ -57,10 +57,10 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 })
               }
               type="button"
-              className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
+              className="h-8"
             >
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -76,30 +76,28 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 <label htmlFor={note.id} className="sr-only">
                   Edit note
                 </label>
-                <textarea
+                <Textarea
                   value={selectedNote.text}
                   onChange={(e) => onEdit(e.target.value)}
                   autoFocus
                   id={note.id}
-                  className="block w-full rounded-md bg-gray-100 dark:bg-black/10 px-3 py-1.5  focus:outline-none focus:border focus:border-sky-600 placeholder:text-gray-400 dark:placeholder:text-gray-500 sm:text-sm/6"
-                  rows={4}
                   placeholder="Enter any additional order notes..."
-                ></textarea>
+                />
 
                 <div className="flex items-center justify-end gap-2 p-3">
-                  <button
+                  <Button
                     onClick={() => setSelectedNote(null)}
-                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-gray-500 shadow hover:shadow-md cursor-pointer"
+                    className="h-8 text-gray-500"
                   >
                     Cancel
-                  </button>
+                  </Button>
 
-                  <button
+                  <Button
                     onClick={() => saveEditedNote(selectedNote)}
-                    className="rounded-full bg-sky-700/20  px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
+                    className="h-8"
                   >
                     Save
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
@@ -110,19 +108,19 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 </p>
 
                 <div className="flex items-center justify-end gap-2">
-                  <button
+                  <Button
                     onClick={() => handleSelectNote(note)}
-                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-sky-600 shadow hover:shadow-md cursor-pointer"
+                    className="rounded-full w-9 px-0"
                   >
                     <Edit className="w-4 h-4">Edit</Edit>
-                  </button>
+                  </Button>
 
-                  <button
+                  <Button
                     onClick={() => handleDeleteNote(note.id)}
-                    className="rounded-full border border-black/2 dark:border-white/20 px-3 py-1.5 text-sm font-medium text-red-400 shadow hover:shadow-md cursor-pointer"
+                    className="rounded-full w-9 px-0"
                   >
-                    <Trash className="w-4 h-4">Delete</Trash>
-                  </button>
+                    <Trash className="w-4 h-4 stroke-red-500">Delete</Trash>
+                  </Button>
                 </div>
               </div>
             )}

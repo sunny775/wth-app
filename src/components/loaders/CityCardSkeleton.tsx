@@ -1,8 +1,8 @@
-import { ComponentProps } from "react";
+import Card from "../Card";
 
-export default function CityCardSkeleton({ children, ...rest }: ComponentProps<"div">) {
+export default function CityCardSkeleton({ children }: { children?: string }) {
   return (
-    <div className="rounded-xl p-3 shadow-sm hover:shadow-lg bg-white dark:bg-white/4 transition" {...rest}>
+    <Card>
       <div className="flex flex-col justify-center items-center animate-pulse space-y-4 w-full">
         <div className="size-10 rounded-full bg-gray-200 dark:bg-white/10"></div>
         <div className="flex-1 space-y-6 py-1 w-full">
@@ -15,6 +15,6 @@ export default function CityCardSkeleton({ children, ...rest }: ComponentProps<"
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

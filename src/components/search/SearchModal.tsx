@@ -5,6 +5,7 @@ import Modal from "../Modal";
 import { City, LocationSearch } from "../../utils/shared-types";
 import { Star } from "lucide-react";
 import cn from "../../utils/cn";
+import Tooltip from "../Tooltip.";
 
 type SearchProps = {
   className?: string;
@@ -32,13 +33,25 @@ function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
           className="flex justify-between gap-x-6 py-5 text-gray-700 dark:text-gray-300"
         >
           <div className="flex gap-x-4 justify-center items-center">
-            <Star
-              onClick={() => toggleFavorite(result)}
-              className={cn("h-6 w-6 cursor-pointer hover:stroke-orange-500", {
-                "fill-orange-500 stroke-orange-500": isFavorite(result),
-              })}
-              strokeWidth={1}
-            />
+            <Tooltip
+              direction="right"
+              text={
+                isFavorite(result)
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
+            >
+              <Star
+                onClick={() => toggleFavorite(result)}
+                className={cn(
+                  "h-6 w-6 cursor-pointer hover:stroke-orange-500",
+                  {
+                    "fill-orange-500 stroke-orange-500": isFavorite(result),
+                  }
+                )}
+                strokeWidth={1}
+              />
+            </Tooltip>
 
             <div className="flex-auto">
               <p className="text-sm/6 font-semibold">{result.name}</p>
@@ -49,7 +62,7 @@ function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
           </div>
           <div className="flex flex-col items-end">
             <Link
-              to={`/city?lat=${result.lat}&lon=${result.lon}`}
+              to={`/${result.lat}/${result.lon}`}
               className="group font-semibold flex items-center justify-between gap-1 w-full text-sky-600"
             >
               <p className="text-sm/6">Details</p>

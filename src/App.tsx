@@ -1,4 +1,4 @@
-import { Suspense, lazy} from "react";
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { QueryClient } from "@tanstack/react-query";
 import {
@@ -8,10 +8,13 @@ import {
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "./components/layout/Layout";
-import PageLoader from "./components/loaders/PageLoader";
+import ScreenLoader from "./components/loaders/ScreenLoader";
+import NotFound404 from "./components/pages/NotFound404";
 
 const Home = lazy(() => import("./components/pages/Home"));
-const CityDetails = lazy(() => import("./components/pages/CityDitails"));
+const CityDetails = lazy(
+  () => import("./components/pages/CityDitails")
+);
 
 export default function App() {
   const persister = createSyncStoragePersister({
@@ -22,13 +25,13 @@ export default function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 1000 * 60 * 600, // 1 hr cache
-        gcTime: 1000 * 60 * 60 * 24, // 24 hours
+        staleTime: 1000 * 60 * 60,
+        gcTime: 1000 * 60 * 60 * 24,
         networkMode: "offlineFirst",
       },
       mutations: {
         networkMode: "offlineFirst",
-      }
+      },
     },
   });
 
@@ -38,11 +41,12 @@ export default function App() {
       persistOptions={{ persister }}
     >
       <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
+        <Suspense fallback={<ScreenLoader />}>
           <Routes>
             <Route element={<Layout />}>
               <Route index path="/" element={<Home />} />
-              <Route path="city" element={<CityDetails />} />
+              <Route path=":lat/:lon" element={<CityDetails />} />
+              <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
         </Suspense>

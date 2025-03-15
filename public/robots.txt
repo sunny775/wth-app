@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /sw.js
+Allow: /
+
+# TODO: Add hosted sitemap url
+Sitemap: https://example.com/sitemap.xml

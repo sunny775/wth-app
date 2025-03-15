@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { Outlet } from "react-router";
 import useLocation from "../../hooks/useLocation";
 import { X } from "lucide-react";
+import Button from "../Button";
 
 interface LocationErrorProps {
   error: Error;
@@ -76,19 +77,19 @@ export default function Layout() {
 function LocationError({ error, hideError }: LocationErrorProps) {
   return (
     <div className="fixed right-4 bottom-8 rounded-lg border border-black/10 dark:border-white/10 shadow-lg bg-sky-50 dark:bg-[rgb(30,30,30)]">
-      <button
+      <Button
         onClick={hideError}
-        className="absolute -end-1 -top-1 rounded-full border border-black/10 dark:border-white/10 bg-sky-50 dark:bg-[rgb(30,30,30)] text-gray-600 dark:text-gray-400 cursor-pointer p-1"
+        className=" w-8 h-8 px-0 absolute -end-1 -top-1 rounded-full border border-black/10 dark:border-white/10 bg-sky-50 dark:bg-[rgb(30,30,30)] text-gray-600 dark:text-gray-400"
       >
         <span className="sr-only">Close</span>
-        <X />
-      </button>
+        <X className="w-4 h-4" />
+      </Button>
 
       <div className="p-4">
         <div>
           <p className="font-medium">{error.message}</p>
 
-          <p className="line-clamp-1 text-sm text-gray-500">
+          <p className="text-sm text-gray-500">
             Enable location services to get real time weather data of your
             current city
           </p>
