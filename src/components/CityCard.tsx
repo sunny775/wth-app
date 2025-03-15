@@ -73,7 +73,7 @@ const CityCard = memo(
         <div className="flex justify-between items-center">
           <div className="flex items-center justify-center gap-x-1">
             <Tooltip
-              text={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              text={isFavorite ? "Remove From Favorites" : "Add To Favorites"}
             >
               <Button
                 className="rounded-full w-9 px-0"

@@ -44,7 +44,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   return (
     <div
-      className="group relative w-full"
+      className="group relative"
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >

@@ -37,8 +37,8 @@ function ResultList({ results, isFavorite, toggleFavorite }: ResultListProps) {
               direction="right"
               text={
                 isFavorite(result)
-                  ? "Remove from favorites"
-                  : "Add to favorites"
+                  ? "Remove From Favorites"
+                  : "Add To Favorites"
               }
             >
               <Star
