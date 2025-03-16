@@ -100,6 +100,7 @@ export default function SearchModal({
       }
     >
       <SearchBar
+        id="CitiesSearchModal"
         isDropdown
         className={cn("overflow-auto", className)}
         renderSearchResults={({

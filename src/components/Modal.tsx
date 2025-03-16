@@ -35,6 +35,7 @@ const Modal = memo(
               onClick={closeModal}
               className="w-8 h-8 px-0 bg-gray-400 dark:bg-white/20 rounded-full text-gray-100 dark:text-black/50 fixed top-3 right-3"
             >
+              <span className="sr-only">Close Modal</span>
               <X className="w-4 h-4" />
             </Button>
           </div>

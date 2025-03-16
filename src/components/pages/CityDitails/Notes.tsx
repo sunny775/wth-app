@@ -43,7 +43,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
             <Button
               onClick={() => setNewNote("")}
               type="button"
-              className="h-8 text-gray-500"
+              className="h-8 text-gray-500 dark:text-gray-400"
             >
               Clear
             </Button>
@@ -87,7 +87,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                 <div className="flex items-center justify-end gap-2 p-3">
                   <Button
                     onClick={() => setSelectedNote(null)}
-                    className="h-8 text-gray-500"
+                    className="h-8 text-gray-500 dark:text-gray-400"
                   >
                     Cancel
                   </Button>
@@ -103,7 +103,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
             ) : (
               <div className="w-full p-4">
                 <p>{note.text}</p>
-                <p className="pt-4 text-gray-400 text-xs">
+                <p className="pt-4 text-gray-500 dark:text-gray-400 text-xs">
                   {new Date(note.date).toDateString()}
                 </p>
 
@@ -111,6 +111,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                   <Button
                     onClick={() => handleSelectNote(note)}
                     className="rounded-full w-9 px-0"
+                    title="Edit Note"
                   >
                     <Edit className="w-4 h-4">Edit</Edit>
                   </Button>
@@ -118,6 +119,7 @@ export default function Notes({ lat, lon }: { lat: string; lon: string }) {
                   <Button
                     onClick={() => handleDeleteNote(note.id)}
                     className="rounded-full w-9 px-0"
+                    title="Delete Note"
                   >
                     <Trash className="w-4 h-4 stroke-red-500">Delete</Trash>
                   </Button>

@@ -8,8 +8,8 @@ export default function LazyCityCard(props: CityCardProps) {
   const isVisible = useIntersection(ref, { threshold: 0.7 });
 
   return (
-    <div ref={ref}>
+    <li ref={ref}>
       {isVisible ? <CityCard {...props} /> : <CityCardSkeleton />}
-    </div>
+    </li>
   );
 }

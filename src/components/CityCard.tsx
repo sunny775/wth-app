@@ -11,7 +11,8 @@ import Card, { CardProps } from "./Card";
 import Button from "./Button";
 import Tooltip from "./Tooltip.";
 
-export interface CityCardProps extends Omit<CardProps, "children"> {
+export interface CityCardProps
+  extends Omit<CardProps<"div">, "children" | "as"> {
   city: City;
   isFavorite?: boolean;
   toggleFavorite: (city: City) => void;
@@ -31,12 +32,13 @@ const CityCard = memo(
       data: weatherData,
       isLoading,
       error,
-    } = useQuery<WeatherData>({
+    } = useQuery<WeatherData | undefined>({
       queryKey: queryKeys.city({ lat, lon }),
       queryFn: () => fetchCity(`${lat},${lon}`),
     });
 
     if (isLoading) return <CityCardSkeleton />;
+
     if (error)
       return (
         <Card className="flex items-center justify-center w-full h-full min-h-32">
@@ -55,6 +57,7 @@ const CityCard = memo(
         <div className="flex justify-center items-center gap-x-2">
           <img
             src={weatherData.current.weather_icons[0]}
+            alt={weatherData.current.weather_descriptions[0]}
             className="w-8 h-8 rounded-full drop-shadow-[0_5px_5px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_5px_5px_rgba(135,206,235,0.2)]"
           />
           <div>{weatherData.current.temperature}°C</div>
@@ -66,7 +69,7 @@ const CityCard = memo(
           </h3>
         </Link>
 
-        <p className="mb-4 line-clamp-3 text-sm/relaxed text-gray-500">
+        <p className="mb-4 line-clamp-3 text-sm/relaxed text-gray-500 dark:text-gray-400">
           {weatherData.location.country}
         </p>
 
@@ -77,6 +80,7 @@ const CityCard = memo(
             >
               <Button
                 className="rounded-full w-9 px-0"
+                title="Toggle Favorite"
                 onClick={() => toggleFavorite(weatherData.location)}
               >
                 <Star
@@ -91,6 +95,7 @@ const CityCard = memo(
               <Tooltip text="Delete">
                 <Button
                   className="rounded-full w-9 px-0"
+                  title="Delete City"
                   onClick={() => deleteInitialCity?.(weatherData.location)}
                 >
                   <Trash className="h-4 w-4 stroke-red-500" strokeWidth={1} />
@@ -99,7 +104,7 @@ const CityCard = memo(
             )}
           </div>
           <Link
-            className="group flex items-center gap-x-1 text-sm font-medium text-sky-600"
+            className="group flex items-center gap-x-1 text-sm font-medium text-sky-800 dark:text-sky-300"
             to={`${weatherData.location.lat}/${weatherData.location.lon}`}
           >
             Details

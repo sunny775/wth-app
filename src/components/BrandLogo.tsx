@@ -1,9 +1,15 @@
-import { Link } from "react-router"
+import { Link } from "react-router";
+import cn from "../utils/cn";
 
-export default function BrandLogo({ fontSize = 'text-sm' }) {
+export default function BrandLogo({ className }: { className?: string }) {
   return (
     <Link to="/">
-      <div className={`inline-flex gap-1.5 justify-center items-center ${fontSize}`}>
+      <div
+        className={cn(
+          "inline-flex gap-1.5 justify-center items-center text-sm",
+          className
+        )}
+      >
         <span className="font-medium">Weather App</span>
 
         <span aria-hidden="true" role="img">
@@ -11,5 +17,5 @@ export default function BrandLogo({ fontSize = 'text-sm' }) {
         </span>
       </div>
     </Link>
-  )
+  );
 }

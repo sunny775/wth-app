@@ -1,6 +1,11 @@
+import { ReactNode } from "react";
 import Card from "../Card";
 
-export default function CityCardSkeleton({ children }: { children?: string }) {
+export default function CityCardSkeleton({
+  children,
+}: {
+  children?: ReactNode;
+}) {
   return (
     <Card>
       <div className="flex flex-col justify-center items-center animate-pulse space-y-4 w-full">

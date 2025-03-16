@@ -8,8 +8,8 @@ import {
   removeDuplicateCities,
 } from "../../utils/weather";
 import { Search } from "lucide-react";
-import cn from "../../utils/cn";
 import Input from "../Input";
+import cn from "../../utils/cn";
 
 type SearchResultProps = {
   results?: LocationSearch["results"];
@@ -20,12 +20,14 @@ type SearchResultProps = {
 };
 
 interface SearchProps {
+  id: string;
   className?: string;
   isDropdown: boolean;
   renderSearchResults: (props: SearchResultProps) => React.ReactNode;
 }
 
 export default function SearchBar({
+  id,
   isDropdown,
   className,
   renderSearchResults,
@@ -54,8 +56,6 @@ export default function SearchBar({
 
   useClickAway(refDropdown, () => setShowDropdown(false));
 
-  console.log(searchResults);
-
   return (
     <div
       {...(isDropdown ? { ref: refDropdown } : {})}
@@ -65,17 +65,18 @@ export default function SearchBar({
         <Search className="w-6 h-6 stroke-gray-500" />
       </div>
       <form role="search" className="flex-1">
-        <label htmlFor="SearchCities" className="sr-only">
+        <label htmlFor={id} className="sr-only">
           Search
         </label>
 
         <Input
+          id={id}
           type="text"
           onInput={(e) => setSearchQuery(e.currentTarget.value)}
           onFocus={() => setShowDropdown(true)}
           value={searchQuery}
           placeholder="Search..."
-          id="SearchCities"
+          disabled={isLoading}
         />
 
         <button tabIndex={-1} className="sr-only">

@@ -58,17 +58,7 @@ export const useFavorites = () => {
       return [...previousData, city];
     },
     onSuccess: (data, city) => {
-      //const initialCitiesData =
-      // queryClient.getQueryData<City[]>(queryKeys.initialCities()) || [];
-
       queryClient.setQueryData<City[]>(queryKeys.favorites(), data);
-
-      /* queryClient.setQueryData<City[]>(
-        queryKeys.initialCities(),
-        initialCitiesData.filter(
-          (c) => c.lat !== city.lat || c.lon !== city.lon
-        )
-      );*/
       deleteInitialCity.mutate(city);
     },
   });

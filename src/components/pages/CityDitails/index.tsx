@@ -48,23 +48,60 @@ const CityDetails = () => {
     <div className="flex gap-x-8 py-16 px-8 items-center justify-center">
       <div className="w-full max-w-4xl">
         <div className="rounded-xl p-8 shadow bg-white dark:bg-white/2 transition mb-8">
+          <div className="flex items-center justify-center p-4">
+            <img
+              src={weatherData.current.weather_icons[0]}
+              alt={weatherData.current.weather_descriptions[0]}
+              className="sm:hidden w-24 h-24 rounded-full drop-shadow-[0_5px_5px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_5px_5px_rgba(135,206,235,0.2)]"
+            />
+          </div>
           <div className="flex justify-center items-center gap-6 mb-8 lg:mb-12">
             <img
               src={weatherData.current.weather_icons[0]}
-              className="w-12 h-12 rounded-full drop-shadow-[0_5px_5px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_5px_5px_rgba(135,206,235,0.2)]"
+              alt={weatherData.current.weather_descriptions[0]}
+              className="hidden sm:block w-12 h-12 rounded-full drop-shadow-[0_5px_5px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_5px_5px_rgba(135,206,235,0.2)]"
             />
             <div className="flex justify-center items-center flex-col">
-              <p className="text-2xl">
-                {weatherData.location.name.toUpperCase()}
-              </p>
-              <p className="pt-1 text-gray-400 text-sm">
+              <div className="flex justify-center items-center gap-x-2">
+                <p className="text-2xl">
+                  {weatherData.location.name.toUpperCase()}
+                </p>
+                <Tooltip
+                  className="sm:hidden"
+                  text={
+                    isFavorite(weatherData.location)
+                      ? "Remove from favorites"
+                      : "Add to favorites"
+                  }
+                >
+                  <Button
+                    title="Toggle Favorite"
+                    onClick={() => toggleFavorite(weatherData.location)}
+                    className="group  w-12 h-12 rounded-full  hover:bg-sky-100/10 border-0 shadow-none"
+                  >
+                    <Star
+                      className={cn(
+                        "h-6 w-6 cursor-pointer group-hover:stroke-orange-500",
+                        {
+                          "fill-orange-500 stroke-orange-500": isFavorite(
+                            weatherData.location
+                          ),
+                        }
+                      )}
+                      strokeWidth={1}
+                    />
+                  </Button>
+                </Tooltip>
+              </div>
+              <p className="pt-1 text-sm text-gray-500 dark:text-gray-400">
                 {weatherData.location.country.toUpperCase()}
               </p>
-              <p className="pt-4 text-gray-400 text-xs italic">
+              <p className="pt-4 text-xs italic text-gray-500 dark:text-gray-400">
                 {weatherData.current.weather_descriptions[0]}
               </p>
             </div>
             <Tooltip
+              className="hidden sm:block"
               text={
                 isFavorite(weatherData.location)
                   ? "Remove from favorites"
@@ -72,6 +109,7 @@ const CityDetails = () => {
               }
             >
               <Button
+                title="Toggle Favorite"
                 onClick={() => toggleFavorite(weatherData.location)}
                 className="group  w-12 h-12 rounded-full bg-sky-50 dark:bg-sky-100/5  hover:bg-sky-100/10"
               >

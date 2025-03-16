@@ -60,7 +60,7 @@ export default function useLocation() {
       );
 
       if (permissionStatus?.state === "granted" && data) {
-        window.location.href = `/city?lat=${data.lat}&lon=${data.lon}`;
+        window.location.href = `/${data.lat}/${data.lon}`;
       }
     };
 

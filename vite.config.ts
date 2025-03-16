@@ -53,18 +53,18 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/current\?.*$/,
-            handler: 'NetworkFirst',
+            handler: "CacheFirst",
             options: {
               cacheName: 'weather-current-cache',
               expiration: {
-                maxEntries: 50,
+                maxEntries: 100,
                 maxAgeSeconds: 60 * 60 * 1 // 1 hour
               }
             }
           },
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/autocomplete\?.*$/,
-            handler: 'StaleWhileRevalidate',
+            handler: "CacheFirst",//'StaleWhileRevalidate',
             options: {
               cacheName: 'weather-autocomplete-cache',
               expiration: {
@@ -77,7 +77,7 @@ export default defineConfig({
       },
 
       devOptions: {
-        enabled: false,
+        enabled: true,
         navigateFallback: "index.html",
         suppressWarnings: true,
         type: "module",

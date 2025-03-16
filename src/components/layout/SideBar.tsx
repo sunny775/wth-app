@@ -21,10 +21,11 @@ export default function SideBar({
     showError();
   };
   return (
-    <div className="flex fixed  h-screen w-16 flex-col justify-between shadow dark:shadow-md dark:bg-black/10">
+    <div className="hidden sm:flex fixed  h-screen w-16 flex-col justify-between shadow dark:shadow-md dark:bg-black/10">
       <div>
         <Link
           to="/"
+          title="Home"
           className="inline-flex size-16 items-center justify-center"
         >
           <span className="grid size-10 place-content-center rounded-lg bg-gray-100 dark:bg-black/30 text-xs text-gray-600">
@@ -41,11 +42,14 @@ export default function SideBar({
                   className="relative flex justify-center rounded-sm bg-sky-50 dark:bg-black/30 px-2 py-1.5 text-sky-700"
                 >
                   {location ? (
-                    <Link to={`/${location?.lat}/${location?.lon}`}>
+                    <Link
+                      to={`/${location?.lat}/${location?.lon}`}
+                      title="My Weather Data"
+                    >
                       <MapPin className="h-4 w-4" />
                     </Link>
                   ) : (
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="h-4 w-4 cursor-pointer" />
                   )}
                 </div>
               </div>

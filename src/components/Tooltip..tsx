@@ -5,13 +5,15 @@ interface TooltipProps {
   text: string;
   direction?: "top" | "bottom" | "left" | "right";
   children: React.ReactNode;
+  className?: string;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({
+const Tooltip = ({
   text,
   direction = "top",
   children,
-}) => {
+  className,
+}: TooltipProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const directionClasses = {
@@ -44,7 +46,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   return (
     <div
-      className="group relative"
+      className={cn("group relative", className)}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >

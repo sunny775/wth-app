@@ -10,6 +10,7 @@ type SearchProps = {
 export default function HeaderSearchBar({ className }: SearchProps) {
   return (
     <SearchBar
+      id="HeaderCitiesSearch"
       isDropdown
       className={cn("flex h-16 flex-1 items-center justify-center", className)}
       renderSearchResults={({

@@ -1,11 +1,21 @@
-import { ComponentProps } from "react";
+import { ElementType, ReactNode } from "react";
 import cn from "../utils/cn";
 
-export type CardProps = ComponentProps<"div">;
+export type CardProps<T extends ElementType> = {
+  as?: T;
+  children: ReactNode;
+  className?: string;
+} & React.ComponentPropsWithoutRef<T>;
 
-const Card = ({ className, children, ...props }: CardProps) => {
+const Card = <T extends ElementType>({
+  className,
+  children,
+  as,
+  ...props
+}: CardProps<T>) => {
+  const Component = as || "div";
   return (
-    <div
+    <Component
       {...props}
       className={cn(
         "rounded-xl p-3 shadow-sm hover:shadow-lg bg-white dark:bg-white/2 transition",
@@ -13,7 +23,7 @@ const Card = ({ className, children, ...props }: CardProps) => {
       )}
     >
       {children}
-    </div>
+    </Component>
   );
 };
 

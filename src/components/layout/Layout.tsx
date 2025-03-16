@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import { Outlet } from "react-router";
 import useLocation from "../../hooks/useLocation";
 import { X } from "lucide-react";
-import Button from "../Button";
+import Button from "../Button";;
 
 interface LocationErrorProps {
   error: Error;
@@ -54,13 +54,17 @@ export default function Layout() {
 
   return (
     <div className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black/85 transition">
-      <Header />
+      <Header
+        toggleTheme={toggleTheme}
+        location={location.data}
+        showError={() => setShowError(true)}
+      />
       <SideBar
         toggleTheme={toggleTheme}
         location={location.data}
         showError={() => setShowError(true)}
       />
-      <main className="ml-16 min-h-screen">
+      <main className="sm:ml-16 min-h-screen">
         <Outlet />
       </main>
       <Footer />
