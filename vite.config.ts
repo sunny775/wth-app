@@ -58,7 +58,7 @@ export default defineConfig({
               cacheName: 'weather-current-cache',
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 1 // 1 hour
+                maxAgeSeconds: 60 * 60 * 5 // 5 hours
               }
             }
           },

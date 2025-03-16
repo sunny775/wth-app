@@ -15,6 +15,7 @@ export const getUserLocation = async (): Promise<{
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
+        console.log("LOCATION",{latitude, longitude})
         resolve({ lat: latitude, lon: longitude });
       },
       (error) => {
