@@ -2,13 +2,8 @@ import { Current } from "../../../utils/shared-types";
 
 const CurrentDataList = ({ data }: { data: Current }) => {
   const nodes = [];
-  const exclusions = [
-    "observation_time",
-    "weather_code",
-    "weather_icons",
-    "weather_descriptions",
-  ];
-  const units: { [k in keyof Current]?: string } = {
+  
+  const selected: { [k in keyof Current]?: string } = {
     temperature: "°C",
     wind_speed: "km/h",
     pressure: "mb",
@@ -16,16 +11,17 @@ const CurrentDataList = ({ data }: { data: Current }) => {
     humidity: "%",
     cloudcover: "%",
     feelslike: "°C",
+    uv_index: "",
     visibility: "km",
   };
 
   for (const k of Object.keys(data) as Array<keyof Current>) {
-    if (!exclusions.includes(k)) {
+    if (typeof data[k] !== "object") {
       nodes.push(
         <li key={k} className="flex justify-center items-center flex-col">
           <p className="text-sm">{k.split("_").join(" ").toUpperCase()}</p>
           <p className="pt-4 text-gray-500 dark:text-gray-400 text-xs">
-            {data[k]} {units[k] || ""}
+            {data[k]} {selected[k] || ""}
           </p>
         </li>
       );

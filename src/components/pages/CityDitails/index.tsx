@@ -44,6 +44,8 @@ const CityDetails = () => {
     );
   }
 
+  console.log(weatherData)
+
   return (
     <div className="flex gap-x-8 py-16 px-8 items-center justify-center">
       <div className="w-full max-w-4xl">

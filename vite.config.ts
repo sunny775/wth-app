@@ -18,73 +18,83 @@ export default defineConfig({
       manifest: {
         name: "Weather App",
         short_name: "Weather App",
-        description: "A React PWA that showcases weather data of your favorite cities",
+        description:
+          "A React PWA that showcases weather data of your favorite cities",
         theme_color: "#ffffff",
         icons: [
           {
-            src: 'pwa-64x64.png',
-            sizes: '64x64',
-            type: 'image/png'
+            src: "pwa-64x64.png",
+            sizes: "64x64",
+            type: "image/png",
           },
           {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
           },
           {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any'  
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any",
           },
           {
-            src: 'maskable-icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable'
-          }
-        ]
+            src: "maskable-icon-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
       },
 
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
         cleanupOutdatedCaches: true,
-        clientsClaim: true,
+        skipWaiting: true,
         runtimeCaching: [
+         /* {
+            urlPattern: ({ request }) => request.destination === "document", // HTML files
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "html-cache",
+              expiration: { maxAgeSeconds: 0 },
+            },
+          },*/
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/current\?.*$/,
             handler: "NetworkFirst",
             options: {
-              cacheName: 'weather-current-cache',
+              cacheName: "weather-current-cache",
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
-              }
-            }
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+              },
+            },
           },
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/autocomplete\?.*$/,
-            handler: 'StaleWhileRevalidate',
+            handler: "StaleWhileRevalidate",
             options: {
-              cacheName: 'weather-autocomplete-cache',
+              cacheName: "weather-autocomplete-cache",
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
-              }
-            }
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+              },
+            },
           },
           {
-            urlPattern: /^https:\/\/cdn\.worldweatheronline\.com\/images\/wsymbols01_png_64\/.*\.png$/,
-            handler: 'CacheFirst',
+            urlPattern:
+              /^https:\/\/cdn\.worldweatheronline\.com\/images\/wsymbols01_png_64\/.*\.png$/,
+            handler: "CacheFirst",
             options: {
-              cacheName: 'weather-icons-cache',
+              cacheName: "weather-icons-cache",
               expiration: {
                 maxEntries: 100,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
               },
             },
           },
-        ]
+        ],
       },
 
       devOptions: {

@@ -41,7 +41,7 @@ export const getUserLocation = async (
 
         reject(new Error(errorMessage));
       },
-      { enableHighAccuracy: true, maximumAge: 1000 * 60 * 60 }
+      { enableHighAccuracy: true, maximumAge: 1000 * 60 * 60 * 2 }
     );
   });
 };
@@ -50,6 +50,7 @@ export default function useLocation() {
   const [data, setData] = useState<{ lat: number; lon: number } | null>();
   const [error, setError] = useState<Error | null>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isNewState, setIsNewState] = useState<boolean>(true);
 
   useEffect(() => {
     let permissionStatus: PermissionStatus | null = null;
@@ -61,6 +62,11 @@ export default function useLocation() {
         const handlePermission = async () => {
           try {
             setLoading(true);
+            if (status.state !== "prompt") {
+              setIsNewState(localStorage.locationState !== status.state);
+              localStorage.locationState = status.state;
+            }
+
             const location = await getUserLocation(status.state);
 
             setData(location);
@@ -92,5 +98,6 @@ export default function useLocation() {
     loading,
     data,
     error,
+    isNewState,
   };
 }

@@ -40,10 +40,10 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    if (location.data) {
+    if (location.data && location.isNewState) {
       navigate(`/${location.data.lat}/${location.data.lon}`);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.data]);
 
   const toggleTheme = () => {
@@ -88,7 +88,7 @@ export default function Layout() {
 
 function LocationError({ error, hideError }: LocationErrorProps) {
   return (
-    <div className="fixed right-4 bottom-8 rounded-lg border border-black/10 dark:border-white/10 shadow-lg bg-sky-50 dark:bg-[rgb(30,30,30)]">
+    <div className="fixed sm:right-4 bottom-8 rounded-lg border border-black/10 dark:border-white/10 shadow-lg bg-sky-50 dark:bg-[rgb(30,30,30)]">
       <Button
         onClick={hideError}
         className=" w-8 h-8 px-0 absolute -end-1 -top-1 rounded-full border border-black/10 dark:border-white/10 bg-sky-50 dark:bg-[rgb(30,30,30)] text-gray-600 dark:text-gray-400"

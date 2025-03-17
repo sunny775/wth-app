@@ -38,7 +38,7 @@ export default function HeaderSearchBar({ className }: SearchProps) {
                     className="group rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-white/10"
                   >
                     <Link
-                      to={`/city?lat=${searchResult.lat}&lon=${searchResult.lon}`}
+                      to={`/${searchResult.lat}/${searchResult.lon}`}
                       className="group font-semibold text-gray-500 dark:text-white/50 flex items-center justify-between w-full"
                     >
                       <div>
