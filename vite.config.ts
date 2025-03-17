@@ -53,18 +53,18 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/current\?.*$/,
-            handler: "CacheFirst",
+            handler: "NetworkFirst",
             options: {
               cacheName: 'weather-current-cache',
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 5 // 5 hours
+                maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
               }
             }
           },
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/autocomplete\?.*$/,
-            handler: "CacheFirst",//'StaleWhileRevalidate',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'weather-autocomplete-cache',
               expiration: {
@@ -72,7 +72,18 @@ export default defineConfig({
                 maxAgeSeconds: 60 * 60 * 24 * 7 // 7 days
               }
             }
-          }
+          },
+          {
+            urlPattern: /^https:\/\/cdn\.worldweatheronline\.com\/images\/wsymbols01_png_64\/.*\.png$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'weather-icons-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
         ]
       },
 

@@ -73,9 +73,7 @@ export const fetchFn = async <T>(url: string): Promise<T> => {
     }
     return data;
   } catch (error) {
-    throw new Error(
-      error instanceof Error ? error.message : "Failed to fetch"
-    );
+    throw new Error(error instanceof Error ? error.message : "Failed to fetch");
   }
 };
 
@@ -93,8 +91,7 @@ export function removeDuplicateCities<T extends City>(cities: T[]): T[] {
   return Array.from(uniqueCities.values());
 }
 
-// const API_KEY = "85192dff816031ea400b255b583411be";
-const API_KEY = "61d56a1173c3706f92b355775ba41dfb";
+const API_KEY = import.meta.env.VITE_WEATHERSTACK_API_KEY
 
 export const fetchCity = async (query: string) => {
   const url = `https://api.weatherstack.com/current?access_key=${API_KEY}&query=${query}`;
@@ -107,8 +104,6 @@ export const fetchSearchResults = async (query: string) => {
 };
 
 export const queryKeys = {
-  userLoation: () => ["userLocation"],
-  theme: () => ["app-theme"],
   initialCities: () => ["weatherData", "initialCities"],
   favorites: () => ["weatherData", "favorites"],
   city: (args: { lat: string; lon: string }) => [

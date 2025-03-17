@@ -9,7 +9,7 @@ export interface MenuProps {
   location?: {
     lat: number;
     lon: number;
-  };
+  }| null;
   showError: () => void;
 }
 

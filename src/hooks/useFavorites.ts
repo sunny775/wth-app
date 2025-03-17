@@ -15,7 +15,6 @@ export const useFavorites = () => {
 
       return previousData ?? [];
     },
-    staleTime: 2000,
     gcTime: Infinity,
   });
 
@@ -28,7 +27,6 @@ export const useFavorites = () => {
 
       return previousData ?? initialLargestCities();
     },
-    staleTime: 2000,
     gcTime: Infinity,
   });
 

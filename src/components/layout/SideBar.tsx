@@ -7,7 +7,7 @@ interface SideBarProps {
   location?: {
     lat: number;
     lon: number;
-  };
+  } | null;
   showError: () => void;
 }
 

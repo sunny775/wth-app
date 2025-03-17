@@ -25,7 +25,7 @@ export default function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 1000 * 60 * 15, // 15 minutes
+        staleTime: 1000 * 60 * 1, // 1 minute
         gcTime: 1000 * 60 * 60 * 24, // 24 hours
         networkMode: "offlineFirst",
         refetchOnReconnect: "always"

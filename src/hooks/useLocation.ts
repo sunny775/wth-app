@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { queryKeys } from "../utils/weather";
+import { useEffect, useState } from "react";
 
-export const getUserLocation = async (): Promise<{
+export const getUserLocation = async (
+  state: PermissionState
+): Promise<{
   lat: number;
   lon: number;
 }> => {
@@ -12,10 +12,16 @@ export const getUserLocation = async (): Promise<{
       return;
     }
 
+    if (!navigator.onLine) {
+      if (state === "granted" && localStorage.userLocation) {
+        return resolve(JSON.parse(localStorage.userLocation));
+      }
+    }
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        console.log("LOCATION",{latitude, longitude})
+
         resolve({ lat: latitude, lon: longitude });
       },
       (error) => {
@@ -34,40 +40,45 @@ export const getUserLocation = async (): Promise<{
         }
 
         reject(new Error(errorMessage));
-      }
+      },
+      { enableHighAccuracy: true, maximumAge: 1000 * 60 * 60 }
     );
   });
 };
 
 export default function useLocation() {
-  const queryClient = useQueryClient();
-
-  const { userLoation: locationKey } = queryKeys;
-
-  const { data, error, isLoading } = useQuery({
-    queryKey: locationKey(),
-    queryFn: getUserLocation,
-    retry: false,
-  });
+  const [data, setData] = useState<{ lat: number; lon: number } | null>();
+  const [error, setError] = useState<Error | null>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let permissionStatus: PermissionStatus | null = null;
 
-    const handlePermissionChange = async () => {
-      await queryClient.invalidateQueries({ queryKey: locationKey() });
-
-      const data = queryClient.getQueryData<{ lat: string; lon: string }>(
-        locationKey()
-      );
-
-      if (permissionStatus?.state === "granted" && data) {
-        window.location.href = `/${data.lat}/${data.lon}`;
-      }
-    };
-
     navigator.permissions.query({ name: "geolocation" }).then((status) => {
-      permissionStatus = status;
-      permissionStatus.onchange = handlePermissionChange;
+      (async (status: PermissionStatus) => {
+        permissionStatus = status;
+        console.log(status);
+        const handlePermission = async () => {
+          try {
+            setLoading(true);
+            const location = await getUserLocation(status.state);
+
+            setData(location);
+            setError(null);
+            localStorage.userLocation = JSON.stringify(location);
+          } catch (err) {
+            if (err instanceof Error) {
+              setError(err);
+            } else {
+              setError(new Error("Uknown location Error"));
+            }
+          } finally {
+            setLoading(false);
+          }
+        };
+        await handlePermission();
+        permissionStatus.onchange = handlePermission;
+      })(status);
     });
 
     return () => {
@@ -75,11 +86,11 @@ export default function useLocation() {
         permissionStatus.onchange = null;
       }
     };
-  }, [queryClient, locationKey, data]);
+  }, []);
 
   return {
+    loading,
     data,
     error,
-    isLoading,
   };
 }
