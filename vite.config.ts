@@ -52,14 +52,6 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
         skipWaiting: true,
         runtimeCaching: [
-         /* {
-            urlPattern: ({ request }) => request.destination === "document", // HTML files
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "html-cache",
-              expiration: { maxAgeSeconds: 0 },
-            },
-          },*/
           {
             urlPattern: /^https:\/\/api\.weatherstack\.com\/current\?.*$/,
             handler: "NetworkFirst",
