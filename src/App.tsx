@@ -8,13 +8,11 @@ import {
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "./components/layout/Layout";
-import ScreenLoader from "./components/loaders/ScreenLoader";
 import NotFound404 from "./components/pages/NotFound404";
+import FullPage from "./components/FullScreen";
 
 const Home = lazy(() => import("./components/pages/Home"));
-const CityDetails = lazy(
-  () => import("./components/pages/CityDitails")
-);
+const CityDetails = lazy(() => import("./components/pages/CityDitails"));
 
 export default function App() {
   const persister = createSyncStoragePersister({
@@ -28,7 +26,7 @@ export default function App() {
         staleTime: 1000 * 60 * 1, // 1 minute
         gcTime: 1000 * 60 * 60 * 24, // 24 hours
         networkMode: "offlineFirst",
-        refetchOnReconnect: "always"
+        refetchOnReconnect: "always",
       },
       mutations: {
         networkMode: "offlineFirst",
@@ -42,7 +40,7 @@ export default function App() {
       persistOptions={{ persister }}
     >
       <BrowserRouter>
-        <Suspense fallback={<ScreenLoader />}>
+        <Suspense fallback={<FullPage />}>
           <Routes>
             <Route element={<Layout />}>
               <Route index path="/" element={<Home />} />

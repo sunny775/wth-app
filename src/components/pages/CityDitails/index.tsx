@@ -7,7 +7,7 @@ import Notes from "./Notes";
 import { Star } from "lucide-react";
 import { useFavorites } from "../../../hooks/useFavorites";
 import cn from "../../../utils/cn";
-import FullPage from "../../FullPage";
+import FullPage from "../../FullScreen";
 import PageLoader from "../../loaders/PageLoader";
 import CurrentDataList from "./CurrentDataList";
 import Button from "../../Button";
@@ -44,7 +44,7 @@ const CityDetails = () => {
     );
   }
 
-  console.log(weatherData)
+  console.log(weatherData);
 
   return (
     <div className="flex gap-x-8 py-16 px-8 items-center justify-center">

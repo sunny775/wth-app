@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import FullPage from "../FullPage";
+import FullPage from "../FullScreen";
 
 export default function NotFound404() {
   return (

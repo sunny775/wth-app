@@ -1,4 +1,4 @@
-import FullPage from "../FullPage";
+import FullPage from "../FullScreen";
 import Spinner from "./Spinner";
 
 export default function ScreenLoader() {
