@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <div className="py-16 px-8">
       <div className="flex items-center gap-4 mb-12 flex-col sm:flex-row">
-        <h2 className="text-3xl">My Cities</h2>
+        <h2 className="text-3xl">Favorites</h2>
         <Button
           className="border border-sky-600/20 bg-sky-50/20 dark:bg-sky-100/5 rounded-full  hover:bg-sky-50 dark:hover:bg-sky-100/10 cursor-pointer "
           onClick={() => setIsModalOpen(true)}

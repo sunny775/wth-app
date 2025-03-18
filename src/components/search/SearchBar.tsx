@@ -76,6 +76,7 @@ export default function SearchBar({
           onFocus={() => setShowDropdown(true)}
           value={searchQuery}
           placeholder="Search..."
+          autoComplete="off"
           disabled={isLoading}
         />
 

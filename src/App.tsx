@@ -9,7 +9,7 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "./components/layout/Layout";
 import NotFound404 from "./components/pages/NotFound404";
-import FullPage from "./components/FullScreen";
+import FullScreen from "./components/FullScreen";
 
 const Home = lazy(() => import("./components/pages/Home"));
 const CityDetails = lazy(() => import("./components/pages/CityDitails"));
@@ -40,7 +40,7 @@ export default function App() {
       persistOptions={{ persister }}
     >
       <BrowserRouter>
-        <Suspense fallback={<FullPage />}>
+        <Suspense fallback={<FullScreen />}>
           <Routes>
             <Route element={<Layout />}>
               <Route index path="/" element={<Home />} />

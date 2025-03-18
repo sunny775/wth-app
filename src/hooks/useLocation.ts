@@ -68,6 +68,7 @@ export default function useLocation() {
             }
 
             const location = await getUserLocation(status.state);
+            console.log(location);
 
             setData(location);
             setError(null);
@@ -75,6 +76,7 @@ export default function useLocation() {
           } catch (err) {
             if (err instanceof Error) {
               setError(err);
+              console.log(err);
             } else {
               setError(new Error("Uknown location Error"));
             }
