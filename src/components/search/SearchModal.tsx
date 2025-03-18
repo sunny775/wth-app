@@ -5,7 +5,7 @@ import Modal from "../Modal";
 import { City, LocationSearch } from "../../utils/shared-types";
 import { Star } from "lucide-react";
 import cn from "../../utils/cn";
-import Tooltip from "../Tooltip.";
+import Tooltip from "../Tooltip";
 
 type SearchProps = {
   className?: string;

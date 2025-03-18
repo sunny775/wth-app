@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import useLocation from "../../hooks/useLocation";
 import { X } from "lucide-react";
 import Button from "../Button";
@@ -18,7 +18,6 @@ export default function Layout() {
   const [, setIsDark] = useState(() => {
     return localStorage.theme === "dark";
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -38,13 +37,6 @@ export default function Layout() {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
-
-  useEffect(() => {
-    if (location.data && location.isNewState) {
-      navigate(`/${location.data.lat}/${location.data.lon}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.data]);
 
   const toggleTheme = () => {
     setIsDark((prev) => {

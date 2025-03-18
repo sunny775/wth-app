@@ -1,6 +1,6 @@
 import { Home, MapPin, Moon, Sun } from "lucide-react";
 import { Link } from "react-router";
-import Tooltip from "../Tooltip.";
+import Tooltip from "../Tooltip";
 
 interface SideBarProps {
   toggleTheme: () => void;

@@ -11,7 +11,7 @@ import FullPage from "../../FullScreen";
 import PageLoader from "../../loaders/PageLoader";
 import CurrentDataList from "./CurrentDataList";
 import Button from "../../Button";
-import Tooltip from "../../Tooltip.";
+import Tooltip from "../../Tooltip";
 
 const CityDetails = () => {
   const { lat, lon } = useParams();

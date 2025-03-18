@@ -9,7 +9,7 @@ import CityCardSkeleton from "./loaders/CityCardSkeleton";
 import cn from "../utils/cn";
 import Card, { CardProps } from "./Card";
 import Button from "./Button";
-import Tooltip from "./Tooltip.";
+import Tooltip from "./Tooltip";
 
 export interface CityCardProps
   extends Omit<CardProps<"div">, "children" | "as"> {

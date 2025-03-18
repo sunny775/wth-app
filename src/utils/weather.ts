@@ -104,6 +104,7 @@ export const fetchSearchResults = async (query: string) => {
 };
 
 export const queryKeys = {
+  userLocation: () => ["userLocation"],
   initialCities: () => ["weatherData", "initialCities"],
   favorites: () => ["weatherData", "favorites"],
   city: (args: { lat: string; lon: string }) => [
