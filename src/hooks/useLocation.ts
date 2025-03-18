@@ -53,7 +53,7 @@ export default function useLocation() {
         locationKey()
       );
 
-      return navigator.onLine ? await getUserLocation() : prevData;
+      return !navigator.onLine && prevData ?  prevData : await getUserLocation() ;
     },
     retry: false,
     gcTime: Infinity,
@@ -63,6 +63,8 @@ export default function useLocation() {
     let permissionStatus: PermissionStatus | null = null;
 
     const handlePermissionChange = async () => {
+
+      
       await queryClient.invalidateQueries({ queryKey: locationKey() });
 
       const data = queryClient.getQueryData<{ lat: string; lon: string }>(
