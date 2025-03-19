@@ -1,18 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "module": "ESNext",
+    "target": "ESNext",
     "allowJs": true,
     "jsx": "react-jsx",
     "strict": true,
     "noImplicitAny": false,
-
-    "baseUrl": "./",
-    "paths": {
-      "@lib/*": ["lib/ts/*"]
-    },
+    "moduleResolution": "node",
+    "baseUrl": "../../",
     "esModuleInterop": true,
-
     "types": ["node", "jest", "@testing-library/jest-dom"]
   }
 }

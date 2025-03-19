@@ -1,3 +1,4 @@
+import { VITE_WEATHERSTACK_API_KEY } from "./constants";
 import { City, LocationSearch, WeatherData } from "./shared-types";
 
 export const initialLargestCities: () => Promise<City[]> = async () => [
@@ -91,7 +92,7 @@ export function removeDuplicateCities<T extends City>(cities: T[]): T[] {
   return Array.from(uniqueCities.values());
 }
 
-const API_KEY = import.meta.env.VITE_WEATHERSTACK_API_KEY
+const API_KEY = VITE_WEATHERSTACK_API_KEY;// import.meta.env.VITE_WEATHERSTACK_API_KEY
 
 export const fetchCity = async (query: string) => {
   const url = `https://api.weatherstack.com/current?access_key=${API_KEY}&query=${query}`;

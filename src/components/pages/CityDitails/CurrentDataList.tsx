@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import { Current } from "../../../utils/shared-types";
 
 const CurrentDataList = ({ data }: { data: Current }) => {
-  const nodes = [];
-  
+  const nodes: ReactNode[] = [];
+
   const selected: { [k in keyof Current]?: string } = {
     temperature: "°C",
     wind_speed: "km/h",

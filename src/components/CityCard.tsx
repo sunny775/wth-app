@@ -88,6 +88,7 @@ const CityCard = memo(
                     "fill-orange-500 stroke-orange-500": isFavorite,
                   })}
                   strokeWidth={1}
+                  data-testid="favorite-icon"
                 />
               </Button>
             </Tooltip>

@@ -7,7 +7,7 @@ export default function CityCardSkeleton({
   children?: ReactNode;
 }) {
   return (
-    <Card>
+    <Card role="status">
       <div className="flex flex-col justify-center items-center animate-pulse space-y-4 w-full">
         <div className="size-10 rounded-full bg-gray-200 dark:bg-white/10"></div>
         <div className="flex-1 space-y-6 py-1 w-full">
