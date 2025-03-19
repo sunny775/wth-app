@@ -20,7 +20,7 @@ const Drawer = ({ children, isOpen, onClose, className }: DrawerProps) => {
       )}
     >
       <aside
-        className={`w-screen h-screen fixed right-0 top-0 bg-background dark:bg-[rgb(40,40,40)] shadow-xl transform transition-transform duration-300 ${
+        className={`w-screen h-screen fixed right-0 top-0 bg-white dark:bg-[rgb(40,40,40)] shadow-xl transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-labelledby="drawer-title"

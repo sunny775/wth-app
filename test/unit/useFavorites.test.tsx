@@ -4,8 +4,8 @@ import React from "react";
 import { useFavorites } from "../../src/hooks/useFavorites";
 import { City } from "../../src/utils/shared-types";
 
-jest.mock('../../src/utils/constants', () => ({
-  VITE_WEATHERSTACK_API_KEY: '61d56a1173c3706f92b355775ba41dfb',
+jest.mock("../../src/utils/constants", () => ({
+  VITE_WEATHERSTACK_API_KEY: "test-api-key",
 }));
 
 const queryClient = new QueryClient();
