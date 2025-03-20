@@ -19,7 +19,7 @@ const mockWeatherData = {
 jest.mock("../../src/utils/weather");
 
 jest.mock("../../src/utils/constants", () => ({
-  VITE_WEATHERSTACK_API_KEY: "test-api-key",
+  WEATHERSTACK_API_KEY: "test-api-key",
 }));
 
 const createQueryClient = () =>

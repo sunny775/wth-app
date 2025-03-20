@@ -5,7 +5,7 @@ import { useFavorites } from "../../src/hooks/useFavorites";
 import { City } from "../../src/utils/shared-types";
 
 jest.mock("../../src/utils/constants", () => ({
-  VITE_WEATHERSTACK_API_KEY: "test-api-key",
+  WEATHERSTACK_API_KEY: "test-api-key",
 }));
 
 const queryClient = new QueryClient();

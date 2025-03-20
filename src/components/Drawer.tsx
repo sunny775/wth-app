@@ -25,7 +25,7 @@ const Drawer = ({ children, isOpen, onClose, className }: DrawerProps) => {
         }`}
         aria-labelledby="drawer-title"
       >
-        <div className="flex justify-between items-center p-4 border-b border-gray-600">
+        <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
           <h2 id="drawer-title" className="text-lg font-semibold">
             MENU
           </h2>

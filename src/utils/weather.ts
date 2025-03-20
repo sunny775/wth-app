@@ -1,8 +1,7 @@
-import { VITE_WEATHERSTACK_API_KEY } from "./constants";
 import { City, LocationSearch, WeatherData } from "./shared-types";
 
 export const initialLargestCities: () => Promise<City[]> = async () => [
-  /* { name: "Tokyo", country: "Japan", lat: "35.690", lon: "139.692" },
+  { name: "Tokyo", country: "Japan", lat: "35.690", lon: "139.692" },
   { name: "New Delhi", country: "India", lat: "28.600", lon: "77.200" },
   { name: "Shanghai", country: "China", lat: "31.005", lon: "121.409" },
   {
@@ -31,7 +30,7 @@ export const initialLargestCities: () => Promise<City[]> = async () => [
     country: "Japan",
     lat: "34.694",
     lon: "135.502",
-  },*/
+  },
   {
     name: "New York",
     country: "United States of America",
@@ -92,7 +91,7 @@ export function removeDuplicateCities<T extends City>(cities: T[]): T[] {
   return Array.from(uniqueCities.values());
 }
 
-const API_KEY = VITE_WEATHERSTACK_API_KEY;// import.meta.env.VITE_WEATHERSTACK_API_KEY
+const API_KEY = process.env.WEATHERSTACK_API_KEY;
 
 export const fetchCity = async (query: string) => {
   const url = `https://api.weatherstack.com/current?access_key=${API_KEY}&query=${query}`;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Drawer from "../Drawer";
 import Button from "../Button";
 import { Menu, Home, MapPin, Moon, Sun } from "lucide-react";
@@ -9,7 +9,7 @@ export interface MenuProps {
   location?: {
     lat: number;
     lon: number;
-  }| null;
+  } | null;
   showError: () => void;
 }
 
@@ -20,9 +20,6 @@ const MobileMenu = ({ toggleTheme, location }: MenuProps) => {
     setIsOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    setIsOpen(false);
-  }, []);
   return (
     <div className="sm:hidden mr-4">
       <Button onClick={toggleDrawer} title="Menu Button">
