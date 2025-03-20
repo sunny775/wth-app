@@ -65,11 +65,10 @@ export const fetchFn = async <T>(url: string): Promise<T> => {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
+
     if (!response.ok || (data && data.success === false)) {
       const errorMessage = data?.error?.info || "Unknown API error";
-      throw new Error(
-        `API Error: ${errorMessage} (Code: ${data?.error?.code})`
-      );
+      throw new Error(errorMessage);
     }
     return data;
   } catch (error) {

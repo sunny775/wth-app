@@ -125,8 +125,8 @@ describe("CityDetails Component", () => {
   });
 
   test("Matches snapshot", async () => {
-      const { container } = render(<CityDetails />);
-      await screen.findByText("LONDON"); 
-      expect(container).toMatchSnapshot();
-    });
+    const { container } = render(<CityDetails />);
+    await screen.findByText("LONDON");
+    expect(container).toMatchSnapshot();
+  });
 });

@@ -11,7 +11,7 @@ const useIntersection = (
       (entries) => {
         if (entries[0].isIntersecting) {
           setIsVisible(true);
-          observer.disconnect(); // Stop observing once component loaded
+          observer.disconnect();
         }
       },
       options // E.g; { threshold: 0.5 } =>  Trigger when 50% of component is in view

@@ -5,9 +5,9 @@ import Tooltip from "../Tooltip";
 interface SideBarProps {
   toggleTheme: () => void;
   location?: {
-    lat: number;
-    lon: number;
-  } | null;
+    lat: number | null;
+    lon: number | null;
+  };
   showError: () => void;
 }
 
@@ -41,7 +41,7 @@ export default function SideBar({
                   onClick={handleLocationClick}
                   className="relative flex justify-center rounded-sm bg-sky-50 dark:bg-black/30 px-2 py-1.5 text-sky-700"
                 >
-                  {location ? (
+                  {location?.lat && location.lon ? (
                     <Link
                       to={`/${location?.lat}/${location?.lon}`}
                       title="My Weather Data"

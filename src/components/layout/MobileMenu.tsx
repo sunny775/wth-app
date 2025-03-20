@@ -7,9 +7,9 @@ import { Link } from "react-router";
 export interface MenuProps {
   toggleTheme: () => void;
   location?: {
-    lat: number;
-    lon: number;
-  } | null;
+    lat: number | null;
+    lon: number | null;
+  };
   showError: () => void;
 }
 
@@ -42,7 +42,7 @@ const MobileMenu = ({ toggleTheme, location }: MenuProps) => {
             onClick={toggleDrawer}
             className="rounded-sm bg-sky-50 dark:bg-black/30 px-2 py-1.5 text-sky-700 p-4"
           >
-            {location ? (
+            {location?.lat && location.lon ? (
               <Link
                 to={`/${location?.lat}/${location?.lon}`}
                 title="My Weather Data"

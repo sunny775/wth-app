@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet } from "react-router";
-import useLocation from "../../hooks/useLocation";
+import { Outlet} from "react-router";
 import { X } from "lucide-react";
 import Button from "../Button";
+import { useGeolocation } from "../../hooks/useGeolocation";
 
 interface LocationErrorProps {
-  error: Error;
+  errorMessage: string;
   hideError: () => void;
 }
 
 export default function Layout() {
   const [showError, setShowError] = useState(true);
-  const location = useLocation();
+  const location = useGeolocation();
   const [, setIsDark] = useState(() => {
     return localStorage.theme === "dark";
   });
@@ -56,12 +56,18 @@ export default function Layout() {
     <div className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black/85 transition">
       <Header
         toggleTheme={toggleTheme}
-        location={location.data}
+        location={{
+          lat: location.coords.latitude,
+          lon: location.coords.longitude,
+        }}
         showError={() => setShowError(true)}
       />
       <SideBar
         toggleTheme={toggleTheme}
-        location={location.data}
+        location={{
+          lat: location.coords.latitude,
+          lon: location.coords.longitude,
+        }}
         showError={() => setShowError(true)}
       />
       <main className="sm:ml-16 min-h-screen">
@@ -70,7 +76,7 @@ export default function Layout() {
       <Footer />
       {location.error && showError && (
         <LocationError
-          error={location.error}
+          errorMessage={location.error.message}
           hideError={() => setShowError(false)}
         />
       )}
@@ -78,7 +84,7 @@ export default function Layout() {
   );
 }
 
-function LocationError({ error, hideError }: LocationErrorProps) {
+function LocationError({ errorMessage, hideError }: LocationErrorProps) {
   return (
     <div className="fixed sm:right-4 bottom-8 rounded-lg border border-black/10 dark:border-white/10 shadow-lg bg-sky-50 dark:bg-[rgb(30,30,30)]">
       <Button
@@ -91,7 +97,7 @@ function LocationError({ error, hideError }: LocationErrorProps) {
 
       <div className="p-4">
         <div>
-          <p className="font-medium">{error.message}</p>
+          <p className="font-medium">{errorMessage}</p>
 
           <p className="text-sm text-gray-500">
             Enable location services to get real time weather data of your
