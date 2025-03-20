@@ -1,7 +1,7 @@
 interface MetaTagsProps {
   title: string;
   description: string;
-  path: string;
+  path?: string;
   twitterDomain?: string;
   image?: string;
 }
