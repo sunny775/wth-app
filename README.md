@@ -10,7 +10,7 @@
 - ✅ **Offline Support** – View previously searched and favorited cities' weather data without an internet connection.
 - ✅ **Geolocation Support** – Detects the user’s location to provide instant weather updates.
 - ✅ **Performance Optimized** – Uses React app performance optimization techniques ( `React.memo`, `useMemo`, `React.lazy`, lazy-loading data using [Intersetion Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and more ), and Vite for blazing-fast performance.
-- ✅ **PWA Ready** – Installable on mobile and desktop with [Workbox](https://developer.chrome.com/docs/workbox) service workers.
+- ✅ **PWA Ready** – Installable on mobile and desktop with React Query cache persistence and [Workbox](https://developer.chrome.com/docs/workbox) service workers.
 - ✅ **SEO & Sitemap** – Optimized metadata, dynamic routing support, and sitemap generation for search engines.
 - ✅ **Unit Tested** – Thorough `Jest` & `@testing-library/react` unit tests to ensure reliability.
 
@@ -29,7 +29,7 @@
 
 ---
 
-## 📦 Installation
+## 📦 Development
 
 ### Prerequisites
 
@@ -46,22 +46,22 @@ Ensure you have the following installed on your system:
      ```sh
      unzip weather-app.zip -d weather-app
      ```
+
+2. Open the extracted folder in a terminal:
+   ```sh
+   cd weather-app
+   ```
 2. Add Evironment Variables
 
-Create a `.env.local` file at the root of the weather-app directory with the following ccontent:
+Create a `.env.local` file at the root of the weather-app directory with the following content:
 
 ```
-WEATHERSTACK_API_KEY=your_weatherstack_api_key
+WEATHERSTACK_API_KEY=[your_weatherstack_api_key](https://weatherstack.com)
 
 VITE_BASE_URL=http://localhost:5173
 VITE_TWITTER_DOMAIN=localhost
 VITE_IMAGE_PATH=favicon.svg
 ```
-
-3. Open the extracted folder in a terminal:
-   ```sh
-   cd weather-app
-   ```
 
 ### 🟢 Step 2: Install Dependencies
 
@@ -71,16 +71,23 @@ Run the following command to install all necessary dependencies:
 
 ### ⚡ step 3: Run the App
 
-Start the Development ServerTo launch the app in development mode:
+Start the Development Server to launch the app in development mode:
 
 - `npm run dev`
   This starts a local Vite-powered development server.
   Open http://localhost:5173 in your browser.
 
+### 🧪 Running Tests
+To run the unit tests:
+
+ - `npm run test-unit`
+
 ### 🏗️ Build for Production
 Create a `.env.production` file root of the weather-app directory with the following ccontent:
 
 ```
+WEATHERSTACK_API_KEY=[your_weatherstack_api_key](https://weatherstack.com)
+
 VITE_BASE_URL=your_hosting_base_url ( Example: https://prismatic-eclair-33cbd8.netlify.app)
 VITE_TWITTER_DOMAIN=your_hosting_twitter_domain ( Example: prismatic-eclair-33cbd8.netlify.app)
 VITE_IMAGE_PATH=favicon.svg
@@ -93,97 +100,74 @@ To generate an optimized production build:
   This serves the built app at http://localhost:4173
 
 
-## USAGE
-The web app can be accessed by simply entering https://prismatic-eclair-33cbd8.netlify.app on the address bar of your browser.
-However if you wish to install it on your device as a desktop app, you can take the following steps:
+## 📥 Installing the PWA
 
-Installing as an app on the homescreen your device:
-1: From Chrome ( Desktop ):
-Enter https://prismatic-eclair-33cbd8.netlify.app on the address bar of your Chrome browser
-Click on the install icon at the top right end of Chrome address bar.
-Click the install button on the pop up that appears
-2: From Chrome ( Mobile ):
-Enter https://prismatic-eclair-33cbd8.netlify.app on the address bar of your Chrome browser
-From the browser menu, click on “Add to Home screen”.
-Select “Install”. The app is installed on your homescreen.
+You can access the web app by simply entering  
+🔗 **[prismatic-eclair-33cbd8.netlify.app](https://prismatic-eclair-33cbd8.netlify.app)** in your browser.  
 
-3: From Safari ( Desktop ):
-Enter https://prismatic-eclair-33cbd8.netlify.app on the address bar of your browser
-Click on the share icon at the top right end of the browser.
-Select Add to Dock. The app is installed on your homescreen.
+However, if you wish to install it as a **desktop or mobile app**, follow the steps below:  
+
+---
+
+### 📱 Installing as an App on Your Device  
+
+#### **🖥️ On Chrome (Desktop)**  
+1️⃣ Open **Google Chrome** and enter:  
+   🔗 [prismatic-eclair-33cbd8.netlify.app](https://prismatic-eclair-33cbd8.netlify.app)  
+2️⃣ Click the **install icon** 🏠 at the top-right of the address bar.  
+3️⃣ Click the **"Install"** button in the pop-up that appears.  
+
+---
+
+#### **📱 On Chrome (Mobile)**  
+1️⃣ Open **Google Chrome** and enter:  
+   🔗 [prismatic-eclair-33cbd8.netlify.app](https://prismatic-eclair-33cbd8.netlify.app)  
+2️⃣ Open the browser menu (⋮) in the top-right corner.  
+3️⃣ Click **"Add to Home Screen"** 📌.  
+4️⃣ Select **"Install"**. The app is now on your **home screen**!  
+
+---
+
+#### **🍏 On Safari (Desktop - macOS)**  
+1️⃣ Open **Safari** and enter:  
+   🔗 [prismatic-eclair-33cbd8.netlify.app](https://prismatic-eclair-33cbd8.netlify.app)  
+2️⃣ Click the **Share** icon 📤 at the top-right of the browser.  
+3️⃣ Select **"Add to Dock"** 📌.  
+4️⃣ The app is now installed on your **dock/home screen**!  
+
+---
+
+## 🚀 Launching the PWA  
+
+Once installed, you can **access the app** in the following ways:  
+
+### **💻 On macOS (MacBook)**  
+1️⃣ Click on the **Launchpad** icon 🚀.  
+2️⃣ Locate and **click the app** to open it.  
+
+### **🌍 Through Chrome Apps**  
+1️⃣ Type **`chrome://apps`** in the Chrome address bar and press **Enter**.  
+2️⃣ Locate the **Weather App** 🌤️ and **click on it**.  
+
+---
+
+## 🗑️ Uninstalling the PWA  
+
+### **🗑️ From Chrome**  
+1️⃣ Type **`chrome://apps`** in the Chrome address bar and press **Enter**.  
+2️⃣ Locate the **Weather App** 🌤️ and **right-click (Control-Click on Mac)** to open the **context menu**.  
+3️⃣ Click **"Uninstall"** ❌.  
+
+### **🗑️ From Safari (Mac)**  
+1️⃣ **Long-press** the **App Icon** on your home screen.  
+2️⃣ Tap **"Remove"** ❌.  
+
+---
+
+✅ **Your PWA is now installed and ready to use! Enjoy weather updates anytime, anywhere! 🌤️📱💻**  
 
 
-Launching the PWA:
-Once installed, the app can be accessed in the following ways:
-1: On macbook:
-Click on the Launchpad icon
-Locate and click on the app to launch it
-2: Through chrome app:
-Type  chrome://apps on the address bar of Google Chrome and press Enter
-Locate the weather app and click on it 
 
-Uninstalling the app:
-1: From Chrome:
-Type  chrome://apps on the address bar of Google Chrome and press Enter
-Locate and Control-Click on the Weather App to open the context menu
-Click on “Uninstall”
-2: From Safari:
-Long-press the App Icon on your home screen , then tap “Remove
-
-📦 Installing the PWA
-Since this is a Progressive Web App (PWA), you can install it on your device:
-
-Open the app in Google Chrome (or another PWA-compatible browser).
-Click on the Install button (or "Add to Home Screen" on mobile).
-The app will now function as a standalone app with offline capabilities!
-🛠️ Configuration
-Setting Up Environment Variables
-If your app requires an API key, create a .env file in the extracted project folder:
-
-plaintext
-Copy
-Edit
-VITE_API_KEY=your_api_key_here
-VITE_API_URL=https://api.weatherapi.com
-Note: Replace your_api_key_here with your actual API key.
-
-🧪 Running Tests
-To ensure everything works correctly, run:
-
-sh
-Copy
-Edit
-npm test
-To run tests in watch mode:
-
-sh
-Copy
-Edit
-npm run test:watch
-🚀 Deployment
-To deploy the app after extracting the ZIP and installing dependencies:
-
-Build the project:
-sh
-Copy
-Edit
-npm run build
-Deploy the contents of the dist/ folder to your preferred hosting provider:
-Netlify:
-sh
-Copy
-Edit
-netlify deploy --prod
-Vercel:
-sh
-Copy
-Edit
-vercel
-Static Hosting (e.g., GitHub Pages, Firebase Hosting, etc.): Upload the dist/ folder manually.
-📜 License
-MIT License © 2025 Your Name or Company
-
-🌟 Support & Feedback
-⭐ Star this project if you found it useful!
-🐛 Found a bug? Report it here
-💡 Have a suggestion? Open a feature request
+## Lighthouse Report
+![LightHouse Report](https://drive.google.com/file/d/1F4LDx7-LfhlNaTrylrFoS-sK5dtoXInb/view?usp=sharing)
+  - Best practices is only less than 100% because the app requests location on page load.
