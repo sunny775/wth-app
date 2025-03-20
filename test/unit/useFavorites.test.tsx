@@ -4,10 +4,6 @@ import React from "react";
 import { useFavorites } from "../../src/hooks/useFavorites";
 import { City } from "../../src/utils/shared-types";
 
-jest.mock("../../src/utils/constants", () => ({
-  WEATHERSTACK_API_KEY: "test-api-key",
-}));
-
 const queryClient = new QueryClient();
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -39,7 +35,7 @@ describe("useFavorites Hook", () => {
 
     await waitFor(() => {
       expect(result.current.initialCitiesQuery.data).not.toBeUndefined();
-      expect(result.current.initialCitiesQuery.data?.length).toBe(5);
+      expect(result.current.initialCitiesQuery.data?.length).toBe(15);
     });
   });
 
