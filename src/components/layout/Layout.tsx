@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet} from "react-router";
+import { Outlet } from "react-router";
 import { X } from "lucide-react";
 import Button from "../Button";
 import { useGeolocation } from "../../hooks/useGeolocation";
 
 interface LocationErrorProps {
-  errorMessage: string;
+  errorMessage?: string;
+  isSupported: boolean;
   hideError: () => void;
 }
 
@@ -74,9 +75,10 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
-      {location.error && showError && (
+      {showError && (
         <LocationError
-          errorMessage={location.error.message}
+          errorMessage={location?.error?.message}
+          isSupported={location.isSupported}
           hideError={() => setShowError(false)}
         />
       )}
@@ -84,7 +86,11 @@ export default function Layout() {
   );
 }
 
-function LocationError({ errorMessage, hideError }: LocationErrorProps) {
+function LocationError({
+  errorMessage,
+  isSupported,
+  hideError,
+}: LocationErrorProps) {
   return (
     <div className="fixed sm:right-4 bottom-8 rounded-lg border border-black/10 dark:border-white/10 shadow-lg bg-sky-50 dark:bg-[rgb(30,30,30)]">
       <Button
@@ -96,14 +102,19 @@ function LocationError({ errorMessage, hideError }: LocationErrorProps) {
       </Button>
 
       <div className="p-4">
-        <div>
-          <p className="font-medium">{errorMessage}</p>
+        {!isSupported ? (
+          <p>Geolocation is not supported in this browser.</p>
+        ) : null}
+        {errorMessage ? (
+          <div>
+            <p className="font-medium">{errorMessage}</p>
 
-          <p className="text-sm text-gray-500">
-            Enable location services to get real time weather data of your
-            current city
-          </p>
-        </div>
+            <p className="text-sm text-gray-500">
+              Enable location services to get real time weather data of your
+              current city
+            </p>
+          </div>
+        ) : null}
       </div>
     </div>
   );

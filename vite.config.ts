@@ -53,7 +53,7 @@ export default defineConfig(({ mode }) => {
         },
 
         workbox: {
-          globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+          globPatterns: ["**/*.{js,css,html,svg,png,ico,xml}"],
           cleanupOutdatedCaches: true,
           runtimeCaching: [
             {
