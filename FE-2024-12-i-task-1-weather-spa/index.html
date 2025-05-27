@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App ( FE-2024-12-i )</title>
+    <meta name="description" content="My Awesome Weather App" />
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="%VITE_BASE_URL%" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Weather App" />
+    <meta property="og:description" content="My Awesome Weather App" />
+    <meta property="og:image" content="%VITE_BASE_URL%/%VITE_IMAGE_PATH%" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="%VITE_TWITTER_DOMAIN%" />
+    <meta property="twitter:url" content="%VITE_BASE_URL%" />
+    <meta name="twitter:title" content="Weather App" />
+    <meta name="twitter:description" content="My Awesome Weather App" />
+    <meta name="twitter:image" content="%VITE_BASE_URL%/%VITE_IMAGE_PATH%" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <script>
+      const isDark =
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

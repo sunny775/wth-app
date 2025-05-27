@@ -157,13 +157,3 @@ Once installed, you can **access the app** in the following ways:
 ![LightHouse Report](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather_app_lighthouse.png)
 
 - Best practices is only less than 100% because the app requests location on page load.
-
-
-## Screenshots
-
-![Screenshots](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather-spa-1.png)
-![Screenshots](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather-spa-2.png)
-![Screenshots](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather-spa-3.png)
-![Screenshots](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather-spa-4.png)
-![Screenshots](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather-spa-5.png)
-![Screenshots](https://personnal-assets.s3.ap-southeast-2.amazonaws.com/weather-spa-6.png)
