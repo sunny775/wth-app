@@ -1,4 +1,4 @@
-# 🌦️ Weather App ( Taks 1: FE-2024-12-i )
+# 🌦️ Weather App
 
 **Weather App** is a high-performance, offline-capable Progressive Web App (PWA) that provides real-time weather data for cities worldwide. Built with **React**, **TypeScript**, **React Query**, **Vite**, and **Workbox**, it offers a seamless user experience with fast loading times, offline support, and a modern design.
 
